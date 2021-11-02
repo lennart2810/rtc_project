@@ -6,6 +6,8 @@
   <node name="ps4_to_joy_node" pkg="joy" type="joy_node" />
   
   <!-- JoyToTwist Knoten starten -->
-  <node name="joy_to_twist_node" pkg="rtc_project" type="JoyToTwist.py" output="screen"/>
+  <node name="joy_to_twist_node" pkg="rtc_project" type="JoyToTwist.py" output="screen" >
+  	<rosparam command="load" file="$(find rtc_project)/config/JoyToTurtleTwist.yaml" />
+  </node>
   
 </launch>
