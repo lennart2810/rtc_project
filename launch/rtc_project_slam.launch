@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- Gazeboo -->
+  <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" > </include>
+ 
+  <!-- Joy Knoten starten -->
+  <node name="ps4_joy_node" pkg="joy" type="joy_node" />
+  
+  <!-- JoyToTwist Knoten starten -->
+  <node name="slam_node" pkg="rtc" type="slam.py" output="screen"/>
+  
+  <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch">
+    <arg name="slam_methods" value="gmapping" />
+  </include>
+  
+</launch>
