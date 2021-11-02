@@ -2,7 +2,7 @@
 
 <launch>
 
-  <!-- True: JoyToTwist Knoten published von Anfanf an; False: "option", um Flag zu togglen -->
+  <!-- True: JoyToTwist Knoten published von Anfang an; False: "option", um Flag zu togglen -->
   <arg name="start_pub" default="True"/>
  
   <!-- Joy Knoten starten -->
