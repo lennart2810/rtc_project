@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- True: JoyToTwist Knoten published von Anfanf an; False: "option", um Flag zu togglen -->
+  <arg name="start_pub" default="True"/>
+ 
+  <!-- Joy Knoten starten -->
+  <node name="ps4_to_joy_node" pkg="joy" type="joy_node" />
+  
+  <!-- JoyToTwist Knoten starten -->
+  <node name="joy_to_twist_node" pkg="rtc_project" type="JoyToTurtleTwist.py" args="$(arg start_pub)" output="screen" >
+  	<rosparam command="load" file="$(find rtc_project)/config/JoyToTurtleTwist.yaml" />
+  </node>
+  
+  <!-- args="$(arg cmd), $(arg test)"; mehrere Argumente an Python Node übergeben -->
+  
+</launch>
