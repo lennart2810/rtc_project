@@ -34,13 +34,13 @@ class JoyToTwist(object):
 
         rospy.init_node('joy_to_twist_node', anonymous=True)
         rospy.Subscriber('joy', Joy, self.joy_callback)
-        self.vel_pub = rospy.Publisher('/cmd_vel',Twist, queue_size=10)
+        self.vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 
         self.pub_flag = True
         self.vel_msg = Twist()
         self.rate = rospy.Rate(10)
 
-        # Scales aus JoyToTurtleTwist.yaml <-- rosparams werden im launch-file übergeben
+        # Scales aus JoyToTurtleTwist.yaml
         self.scales = rospy.get_param('~scales')
 
         while not rospy.is_shutdown():
