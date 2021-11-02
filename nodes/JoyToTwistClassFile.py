@@ -22,6 +22,8 @@ import rospy
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Joy
 
+# add service to enable pub /cmd_vel
+
 
 class JoyToTwist(object):
     def __init__(self):
