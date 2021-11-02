@@ -31,6 +31,10 @@ class JoyToTwist(object):
 
         self.pub_flag = True
 
+        self.buttons_dict = {"options": 9}
+
+        self.axes_dict = {"L3Y": 1, "R3X": 3}
+
         rospy.init_node('joy_to_twist_node', anonymous=True)
 
         rospy.Subscriber('joy', Joy, self.joy_callback)
@@ -45,17 +49,14 @@ class JoyToTwist(object):
         while not rospy.is_shutdown():
 
             if self.pub_flag:
-
                 self.velocity_publisher.publish(self.vel_msg)
                 self.rate.sleep()
 
     def joy_callback(self, data):
 
         # "enable bzw. disable" velocity_publisher
-        if data.buttons[0] == 1:
-            self.pub_flag = True
-        elif data.buttons[1] == 1:
-            self.pub_flag = False
+        if data.buttons[self.buttons_dict["options"]]:
+            self.pub_flag = not self.pub_flag
 
-        self.vel_msg.linear.x = data.axes[1] * 0.5
-        self.vel_msg.angular.z = data.axes[3] * 1.5
+        self.vel_msg.linear.x = data.axes[self.axes_dict["L3Y"]] * 0.5
+        self.vel_msg.angular.z = data.axes[self.axes_dict["R3X"]] * 1.5
