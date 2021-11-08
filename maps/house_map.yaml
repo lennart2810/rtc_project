@@ -1,4 +1,4 @@
-image: /home/lennart/catkin_ws/src/rtc/nodes/JoyToTwist/house_map.pgm
+image: /home/lennart/catkin_ws/src/rtc_project/maps/house_map.pgm
 resolution: 0.050000
 origin: [-10.000000, -10.000000, 0.000000]
 negate: 0
