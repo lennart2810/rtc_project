@@ -8,9 +8,12 @@
 </div>
 
 ### Built With
+* [Turtlebot3 - Burger](https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/)
 * [Python](https://www.python.org)
 * [ROS](http://wiki.ros.org/)
 * ...
+
+
 
 ## Clone Repository
    ```sh
@@ -22,8 +25,6 @@
 
 ## Roadmap
 - :heavy_check_mark: ReadMe anlegen
-- [x]
-- []
 - :soon: avoid Obstacles
 
 
