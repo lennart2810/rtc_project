@@ -22,6 +22,8 @@ class TurtleUIClass(QWidget):
     def __init__(self):  # Konstrukor
         # Konstruktor der Elternklasse aufrufen
         super(TurtleUIClass, self).__init__()
+
+        self.update_time = 20  # msec
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update)
         self.initUI()
@@ -143,7 +145,7 @@ class TurtleUIClass(QWidget):
         """ Hier geht die Turtle ab """
         turtle1.goal.x = self.sldX.value()
         turtle1.goal.y = self.sldY.value()
-        self.timer.start(20)  # 20 msec
+        self.timer.start(self.update_time)
 
     def SlotStop(self):
         self.lblStatus.setText(' Stop Button klicked ')
@@ -151,7 +153,8 @@ class TurtleUIClass(QWidget):
         turtle1.stop_robot()
 
     def update(self):
-        turtle1.move2goal()
+        rospy.loginfo(turtle1.get_scan())
+        # turtle1.move2goal()
 
 
 if __name__ == '__main__':

@@ -14,7 +14,8 @@ import rospy
 from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
 from nav_msgs.msg import Odometry
-from math import pow, atan2, sqrt, pi
+from sensor_msgs.msg import LaserScan
+from math import pow, atan2, sqrt, pi, isnan
 
 
 class TurtleBotClass:
@@ -39,6 +40,7 @@ class TurtleBotClass:
         # when a message of type Pose is received.
         self.pose_subscriber = rospy.Subscriber('odom',
                                                 Odometry, self.update_pose)
+
         self.rate = rospy.Rate(10)
 
     def quaternion_to_euler(self, x, y, z, w):
@@ -170,3 +172,34 @@ class TurtleBotClass:
         self.stop_robot()  # when goal is reached
         return True
         # exit()
+
+    def get_scan(self):
+        scan = rospy.wait_for_message('scan', LaserScan)
+        scan_filter = []
+
+        samples = len(scan.ranges)  # The number of samples is defined in 
+                                    # turtlebot3_<model>.gazebo.xacro file,
+                                    # the default is 360.
+        samples_view = 1            # 1 <= samples_view <= samples
+
+        if samples_view > samples:
+            samples_view = samples
+
+        if samples_view == 1:
+            scan_filter.append(scan.ranges[0])
+
+        else:
+            left_lidar_samples_ranges = -(samples_view//2 + samples_view % 2)
+            right_lidar_samples_ranges = samples_view//2
+
+            left_lidar_samples = scan.ranges[left_lidar_samples_ranges:]
+            right_lidar_samples = scan.ranges[:right_lidar_samples_ranges]
+            scan_filter.extend(left_lidar_samples + right_lidar_samples)
+
+        for i in range(samples_view):
+            if scan_filter[i] == float('Inf'):
+                scan_filter[i] = 3.5
+            elif isnan(scan_filter[i]):
+                scan_filter[i] = 0
+
+        return scan_filter
