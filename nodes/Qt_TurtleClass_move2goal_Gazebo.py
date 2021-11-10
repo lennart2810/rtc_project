@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
-# --- TurtleClass_move2Goal_Gazebo.py ------
+
+# --- Qt_TurtleClass_move2Goal_Gazebo.py ------
 # Version vom 8.11.2021 by OJ
+# https://github.com/ProfJust/rtc/tree/master/nodes/ue04
 # ----------------------------
-# from
-# --- P3_V4_TurtleClass_move2goal.py ------
-# Version vom 22.10.2019 by OJ
-# Basiert auf der Loesung aus dem Turtlesim Tutorial
-# http://wiki.ros.org/turtlesim/Tutorials/Go%20to%20Goal
-#
+
+
 import sys
 import rospy
 from TurtleBotClassFile import TurtleBotClass
@@ -17,8 +15,6 @@ from PyQt5.QtWidgets import (QWidget, QLCDNumber, QSlider,
                              QPushButton, QVBoxLayout,
                              QHBoxLayout, QApplication,
                              QLabel)
-
-sys.path.insert(0, "/home/lennart/catkin_ws/src/rtc/nodes/ue04/TurtleBotClassFile.py")
 
 
 class TurtleUIClass(QWidget):
@@ -160,10 +156,6 @@ class TurtleUIClass(QWidget):
 if __name__ == '__main__':
     try:
         turtle1 = TurtleBotClass()
-        # Konsole ---------------
-        # turtle1.getGoalFromUser()
-        # turtle1.start_info()
-        # turtle1.move2goal()
 
         # Qt ----------------------
         app = QApplication(sys.argv)

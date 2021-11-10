@@ -61,6 +61,7 @@ if __name__ == '__main__':
     del arg[-2:]
 
     try:
+        # Argumente bereiten Schwierigkeiten, wenn als python script ausgeführt wird!!
         joy = JoyToTwist(arg[0])  # erste Argument aus launch file übergeben
     except rospy.ROSInterruptException:
         rospy.loginfo(" Error ")

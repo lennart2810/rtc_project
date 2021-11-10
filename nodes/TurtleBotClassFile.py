@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
+
+# Grundlage
 # --- TurtleBotClass.py ------
-# Version vom 30.11.2020 by OJ
+# Version vom 8.11.2021 by OJ
+# https://github.com/ProfJust/rtc/tree/master/nodes/ue04
 # ----------------------------
+
+# Obstacle-Erweiterung
+# Version vom 10.11.2021 by LF
+# ----------------------------
+
 import rospy
 from geometry_msgs.msg import Twist
 from turtlesim.msg import Pose
@@ -11,7 +19,7 @@ from math import pow, atan2, sqrt, pi
 
 class TurtleBotClass:
     # globale Variablen
-    goal = Pose()
+    # goal = Pose()
 
     def __init__(self):
         # globale Klassen-Variablen instanzieren
