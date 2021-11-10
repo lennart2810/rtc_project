@@ -1,5 +1,5 @@
 scales:
   linear:
-    x: 0.5
+    x: 1.0
   angular:
     z: 1.5

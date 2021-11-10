@@ -26,6 +26,7 @@ class JoyToTwist(object):
         self.vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 
         # Argument aus launch file zuordnen
+        # True --> pub von Anfang an
         if pub_cmd == 'True':
             self.pub_flag = True
         elif pub_cmd == 'False':
