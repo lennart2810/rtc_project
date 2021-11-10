@@ -3,7 +3,7 @@
 ## About The Project
 <div align="center">
   <a href="https://www.turtlebot.com/">
-    <img src="https://www.turtlebot.com/" alt="Images" width="500" height="500">
+    <img src="appendix/turtlebot3_with_logo.png" alt="Images" width="500" height="500">
   </a>
 </div>
 
