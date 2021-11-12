@@ -1,0 +1,12 @@
+stamped: false
+inputs:
+  linear:
+    x: axis_left_y
+  angular:
+    # z: axis_l2 - axis_r2
+    z: axis_right_x
+scales:
+  linear:
+    x: 0.5
+  angular:
+    z: 1.0

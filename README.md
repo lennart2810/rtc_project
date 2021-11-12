@@ -21,7 +21,7 @@
    ```
 
 ### Dependencies 
-* ...
+* [ds4_driver](https://github.com/naoki-mizuno/ds4_driver)
 
 ## Roadmap
 - :heavy_check_mark: ReadMe anlegen

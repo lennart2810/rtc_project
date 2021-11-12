@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+
+  <include file="$(find ds4_driver)/launch/ds4_driver.launch" /> 
+
+  <node pkg="rtc_project" type="StatusToTurtleTwist.py" name="status_to_turtle_twist" output="screen" >
+    <rosparam command="load" file="$(find rtc_project)/config/StatusToTurtleTwist.yaml" />
+  </node>
+  
+</launch>

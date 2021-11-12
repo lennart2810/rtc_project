@@ -177,10 +177,8 @@ class TurtleBotClass:
         scan = rospy.wait_for_message('scan', LaserScan)
         scan_filter = []
 
-        samples = len(scan.ranges)  # The number of samples is defined in 
-                                    # turtlebot3_<model>.gazebo.xacro file,
-                                    # the default is 360.
-        samples_view = 1            # 1 <= samples_view <= samples
+        samples = len(scan.ranges)
+        samples_view = 1
 
         if samples_view > samples:
             samples_view = samples
