@@ -6,7 +6,6 @@ from ds4_driver.msg import Status
 from sensor_msgs.msg import LaserScan
 from math import isnan
 
-#test
 
 class StatusToTurtleTwist(object):
     def __init__(self):
@@ -14,6 +13,8 @@ class StatusToTurtleTwist(object):
         self._cls = Twist
         self._inputs = rospy.get_param('~inputs')
         self._scales = rospy.get_param('~scales')
+
+        self.distance_range = 3.5 - 0.2  # Laserscan-Range im m (max - min)
 
         self._attrs = []
         for attr in Status.__slots__:
@@ -68,7 +69,22 @@ class StatusToTurtleTwist(object):
             elif isnan(scan_filter[i]):
                 scan_filter[i] = 0
 
-        rospy.loginfo(scan_filter)
+        self.analyse_colour(scan_filter)
+
+    def analyse_colour(self, scan):
+
+        x = float(scan[0])  # aktueller scan; list --> float
+
+        red = -(1/self.distance_range) * x + 1
+        green = (1/self.distance_range) * x
+
+        # Farbwert begrenzen
+        red = max(min(1, red), 0)
+        green = max(min(1, green), 0)
+
+        colour = [red, green]
+        rospy.loginfo(colour)
+        # hier an set_feedback publishen
 
 
 def main():
