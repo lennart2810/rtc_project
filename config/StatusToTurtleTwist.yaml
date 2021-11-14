@@ -1,12 +1,33 @@
-stamped: false
+# Joystick Inputs für Twist-Message (2 DOF)
 inputs:
   linear:
-    x: axis_left_y
+    x: undefined
   angular:
-    # z: axis_l2 - axis_r2
-    z: axis_right_x
+    z: undefined
+
+# Controller-Layouts <-- arg in StatusToTurtleTwist.launch
+layouts:
+  linear:
+    x1: axis_left_y
+    x2: axis_left_y
+    x3: axis_r2 - axis_l2
+  angular:
+    z1: axis_l2 - axis_r2
+    z2: axis_right_x
+    z3: axis_left_x
+
+# Skalierung der Inputs (anpassung der Geschwindigkeit)
 scales:
   linear:
     x: 0.5
   angular:
     z: 1.0
+  
+# Haptische Outputs
+rumble:
+  # Vibration bei Bewegung
+  velocity:
+    linear: 0.5
+    angular: 0.2
+  # Objekterkennung
+  distance: 0.2

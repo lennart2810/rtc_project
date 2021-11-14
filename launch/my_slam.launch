@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="controller_layout" default="1"/>
+  <arg name="map_path" default="/home/lennart/catkin_ws/src/rtc_project/maps/default_map"/>
+  <arg name="map_saver_path" default="/home/lennart/catkin_ws/src/rtc_project/shell/map_saver.sh"/>
+
+  <!-- Gazeboo -->
+  <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
+
+  <!-- Slam Gmapping -->
+  <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch" />
+  
+  <!-- StatusToTurtleTwist als bash script -> eigenes Terminal -->
+  <node pkg="rtc_project" 
+        type="StatusToTurtleTwist.sh" 
+        name="status_to_turtle_twist" 
+        output="screen" 
+        args="$(arg controller_layout) $(arg map_path) $(arg map_saver_path)" >
+  </node>
+  
+  <!-- StatusToTurtleTwist als launch file -> kein Screen-Output -->
+  <!--   <include file="$(find rtc_project)/launch/StatusToTurtleTwist.launch" > 
+    <arg name="controller_layout" value="controller_layout" />
+    <arg name="map_path" value="map_path" />
+    <arg name="map_saver_path" value="map_saver_path" />
+  </include> -->
+
+  
+</launch>
