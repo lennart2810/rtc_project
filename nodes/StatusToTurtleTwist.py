@@ -7,6 +7,7 @@
 import sys
 import rospy
 import subprocess
+from std_msgs.msg import Float64
 from geometry_msgs.msg import Twist
 from ds4_driver.msg import Status, Feedback
 from sensor_msgs.msg import LaserScan
@@ -14,22 +15,59 @@ from math import isnan
 
 
 class StatusToTurtleTwist(object):
-    def __init__(self, layout, map_path, map_saver_path):
+    def __init__(self, controller_layout, map_path, map_saver_path):
 
-        self.map_path = map_path
+        # Übergebene Argumente
+        self.map_path = map_path  # Pfad zum speichern einer SLAM - Karte
         self.map_saver_path = map_saver_path  # map_saver.sh
 
+        # ROS Parameter einlesen
         self.inputs = rospy.get_param('~inputs')
         self.layouts = rospy.get_param('~layouts')
         self.scales = rospy.get_param('~scales')
         self.rumble = rospy.get_param('~rumble')
+        self.distanaces = rospy.get_param('~distance')
 
-        # gewähltes Controller-Layout bestimmen
-        rospy.loginfo('controller_layout: %s', layout)
+        # Controller-Layout einstellen
+        self.__init__controller_layout(controller_layout)
+
+        # Lambda-Funktion für Rumblestärke bei Objekterkennung
+        self.__init__lambda_func()
+
+        # Attribute aus Staus extrahieren
+        self.prev_status = Status()
+        self.attrs = []
+        for attr in Status.__slots__:
+            if attr.startswith('axis_') or attr.startswith('button_'):
+                self.attrs.append(attr)
+
+        self.vel_msg = Twist
+        self.pub_vel_flag = True
+        # self.object_front = False
+
+        self.feedback = Feedback()
+        self.feedback.set_led = True
+        self.feedback.set_rumble = True
+        self.feedback.set_led_flash = True
+
+        self.distance = 0  # im Moment nur Float 
+
+        # Publisher und Subscriber
+        self.pub_vel = rospy.Publisher('cmd_vel', self.vel_msg, queue_size=1)
+        self.pub_feedback = rospy.Publisher('set_feedback',Feedback, queue_size=1)
+        rospy.Subscriber('status', Status, self.cb_status, queue_size=1)
+        rospy.Subscriber('scan', LaserScan, self.cb_scan, queue_size=1)
+
+        # Debug Topic 
+        self.pub_debug = rospy.Publisher('cmd_vel.linear.x', Float64, queue_size=1)
+
+    def __init__controller_layout(self, layout):
+
+        rospy.loginfo('init controller_layout: %s', layout)
         my_item = {}
         for vel_type in self.inputs:
             for direction in self.inputs[vel_type]:
-                my_item[vel_type] = direction+str(layout)
+                my_item[vel_type] = direction + str(layout)
 
         # alle anderen Layouts rauswerfen
         for vel_type in self.layouts:
@@ -43,39 +81,37 @@ class StatusToTurtleTwist(object):
         # Inputs mit Layout überschreiben
         for vel_type in self.inputs:
             for direction in self.inputs[vel_type]:
-                self.inputs[vel_type][direction] = self.layouts[vel_type][direction+str(layout)]
-                my_item[vel_type] = direction+str(layout)
+                self.inputs[vel_type][direction] = self.layouts[vel_type][direction + str(layout)]
+                my_item[vel_type] = direction + str(layout)
 
-        # Lamda-Function für haptischen Distanz-Output
-        self.rumble_func = lambda distance: max(min(1, (-1.25 * distance + 1.25)), 0) * self.rumble['distance']
-        rospy.loginfo('rumble(x) = (%s * x + %s) * %s', -1.25, 1.25, self.rumble['distance'])
-        # rumble(item) = ax + b; mit r(1m) = 100% und r(0.2m) = 0% --> a = -b = -1.25
+    def __init__lambda_func(self):
 
-        # Lamda-Function für visuellen Distanz-Output
-        # Laserscan-Range: 0.2m - 3.5m --> delta_range = 3.3m
-        self.green_func = lambda distance: max(min(1, (distance/3.3)), 0)
-        rospy.loginfo('green(x) = x / %s', 3.3)
-        self.red_func = lambda distance: max(min(1, (-(distance/3.3) + 1)), 0)
-        rospy.loginfo('red(x) = - x / %s + %s', 3.3, 1)
+        # Lineare Funktion über 2 Punkte bestimmen:
+        # f(x) = (y_2-y_1)/(x_2-x_1) * (x-x_1) + y_1
 
-        self.feedback = Feedback()
-        self.feedback.set_led = True
-        self.feedback.set_rumble = True
-        self.feedback.set_led_flash = True
+        min_dist = self.distanaces.get('min')           # min Laserscan
+        crit_dist = self.distanaces.get('critical')     # kritischer Abstand
 
-        # Attribute aus Staus extrahieren
-        self.prev_status = Status()
-        self.attrs = []
-        for attr in Status.__slots__:
-            if attr.startswith('axis_') or attr.startswith('button_'):
-                self.attrs.append(attr)
+        self.rumble_func = lambda x: max(min(1, round(-1/(crit_dist-min_dist)*(x-min_dist)+1, 2)), 0)
 
-        self.vel_msg = Twist
-        self.pub_vel_flag = True
-        self.pub_vel = rospy.Publisher('cmd_vel', self.vel_msg, queue_size=1)
-        self.pub_feedback = rospy.Publisher('set_feedback',Feedback, queue_size=1)
-        rospy.Subscriber('status', Status, self.cb_status, queue_size=1)
-        rospy.Subscriber('scan', LaserScan, self.cb_scan, queue_size=1)
+    def reduce_vel(self):
+
+        x = self.distance
+        crit_dist = self.distanaces.get('critical')  # kritischer Abstand
+
+        # Geschwindigkeit nach Vorne begrenzen / blockieren
+        # ab 1/3 der kritischen Distanz --> vel = 50%; darunter 0%
+        # reduce_vel(x) = (1-0.5)/((cd/3)-cd) * (x-(cd/3)) + 0.5
+
+        if x <= crit_dist/3:
+            return 0
+        elif x > crit_dist/3 and x <= crit_dist:
+            p = (0.5/(crit_dist/3)) * (x-(crit_dist/3)) + 0.5
+            p = round(p, 2)
+            p = max(min(1, p), 0.5)
+            return p
+        else:
+            return 1
 
     def cb_status(self, msg):
 
@@ -84,7 +120,8 @@ class StatusToTurtleTwist(object):
         for attr in self.attrs:
             input_vals[attr] = getattr(msg, attr)
 
-        vel_to_pub = self.vel_msg()
+        #vel_to_pub = self.vel_msg()
+        vel_to_pub = Twist()
         twist = vel_to_pub
 
         for vel_type in self.inputs:
@@ -93,6 +130,14 @@ class StatusToTurtleTwist(object):
                 scale = self.scales[vel_type].get(k, 1.0)
                 val = eval(expr, {}, input_vals)
                 setattr(vel_vec, k, scale * val)
+
+        self.vel_msg = vel_to_pub
+
+        if self.vel_msg.linear.x > 0:   # Turtle fährt nach vorne
+            self.vel_msg.linear.x *= self.reduce_vel()
+            # self.pub_debug.publish(self.vel_msg.linear.x) 
+
+
 
         # Buttons
         if self.prev_status != msg:
@@ -117,7 +162,7 @@ class StatusToTurtleTwist(object):
                 subprocess.call([self.map_saver_path, self.map_path])
 
             self.prev_status = msg
-
+       
         # /set_feedback (battery_percentage)
         if msg.battery_percentage <= 0.375:
             self.feedback.led_flash_on = 0.3
@@ -131,16 +176,18 @@ class StatusToTurtleTwist(object):
         # /set_feedback (rumble_small)
         if self.pub_vel_flag:
             vel_rumble = 0
-            if vel_to_pub.linear.x != 0:
-                vel_rumble = (abs(vel_to_pub.linear.x) / self.scales['linear'].get('x')) * self.rumble['velocity'].get('linear')
-            elif vel_to_pub.angular.z != 0:
-                vel_rumble = (abs(vel_to_pub.angular.z) / self.scales['angular'].get('z')) * self.rumble['velocity'].get('angular')
+            if self.vel_msg.linear.x != 0:
+                vel_rumble = (abs(self.vel_msg.linear.x) / self.scales['linear'].get('x')) * self.rumble['velocity'].get('linear')
+                #vel_rumble = abs(msg.list(self.inputs['linear'].values())[0]) * self.rumble['velocity'].get('linear')
+            elif self.vel_msg.angular.z != 0:
+                vel_rumble = (abs(self.vel_msg.angular.z) / self.scales['angular'].get('z')) * self.rumble['velocity'].get('angular')
 
             self.feedback.rumble_small = abs(vel_rumble)
 
         # /cmd_vel - Publish
         if self.pub_vel_flag:
-            self.pub_vel.publish(vel_to_pub)
+            # self.pub_vel.publish(vel_to_pub)
+            self.pub_vel.publish(self.vel_msg)
 
     def cb_scan(self, scan):
 
@@ -168,21 +215,61 @@ class StatusToTurtleTwist(object):
             elif isnan(scan_filter[i]):
                 scan_filter[i] = 0
 
+        self.distance = scan_filter[0]
         self.analyse_distance(scan_filter)
 
     def analyse_distance(self, front_scan):
 
+        # front scan durch front_m und back_m ersetzen (in cb scan)!!
+
         # aktueller Scan; list --> float
         distance = float(front_scan[0])
 
-        # Farbwert in Abhängigkeit der Distanz (s. __init__)
-        self.feedback.led_r = self.red_func(distance)
-        self.feedback.led_g = self.green_func(distance)
+        # Farbwert in Abhängigkeit der Distanz
+        self.feedback.led_r = self.colour_distance(distance)[0]
+        self.feedback.led_g = self.colour_distance(distance)[1]
 
-        # Rumblewert in Abhängigkeit der Distanz
-        self.feedback.rumble_big = self.rumble_func(distance)
+        # Distanz zu Objekten bewerten
+        self.rumble_distance(distance)
 
+        # Controller Feedback publischen
         self.pub_feedback.publish(self.feedback)
+
+    def rumble_distance(self, x):
+
+        # abstand hinten ebenfalls prüfen!!
+
+        # Abstand zu Objekten vor der Turtle auf kritischen Bereich prüfen
+        if x <= self.rumble['distance'].get('max'):
+
+            # Vibration als Warnung in Abhängigkeit der Entfernung
+            self.feedback.rumble_big = self.rumble_func(x)
+
+            # weitere Bewegung nach Vorne verhindern
+            #self.object_front = True
+
+        else:
+            #self.object_front = False
+            self.feedback.rumble_big = 0.0  # --> keine Vibration
+
+    def colour_distance(self, x):
+
+        # Laserscan-Range: 0.12m - 3.5m
+        # 0.12m --> 100 % rot
+        # 3.50m --> 100 % grün
+
+        # Lineare Funktion über 2 Punkte bestimmen:
+        # f(x) = (y_2-y_1)/(x_2-x_1) * (x-x_1) + y_1
+
+        # red(x) = (0-1)/(3.5-0.12) * (x-0.12) + 1
+        red = -1/(3.38) * (x-0.12) + 1
+        red = round(red, 2)
+        red = max(min(1, red), 0)
+
+        # green(x) = (1-0)/(3.5-0.12) * (x-0.12) + 0
+        green = max(min(1, round(1/(3.38) * (x-0.12), 2)), 0)
+
+        return [red, green]
 
 
 def main(layout, map_path, map_saver_path):

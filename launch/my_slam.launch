@@ -2,12 +2,15 @@
 <launch>
 
   <arg name="controller_layout" default="1"/>
+  <arg name="gazebo_sim" default="true"/>
   <arg name="map_path" default="/home/lennart/catkin_ws/src/rtc_project/maps/default_map"/>
   <arg name="map_saver_path" default="/home/lennart/catkin_ws/src/rtc_project/shell/map_saver.sh"/>
 
-  <!-- Gazeboo -->
-  <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
-
+  <!-- Gazeboo; wird nur gestartet, wenn gazebo_sim == true -->
+  <group if="$(arg gazebo_sim)">
+    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
+  </group>
+  
   <!-- Slam Gmapping -->
   <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch" />
   
@@ -20,11 +23,11 @@
   </node>
   
   <!-- StatusToTurtleTwist als launch file -> kein Screen-Output -->
+ 
   <!--   <include file="$(find rtc_project)/launch/StatusToTurtleTwist.launch" > 
     <arg name="controller_layout" value="controller_layout" />
     <arg name="map_path" value="map_path" />
     <arg name="map_saver_path" value="map_saver_path" />
   </include> -->
 
-  
 </launch>

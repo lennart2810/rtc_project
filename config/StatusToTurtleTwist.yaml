@@ -16,18 +16,26 @@ layouts:
     z2: axis_right_x
     z3: axis_left_x
 
-# Skalierung der Inputs (anpassung der Geschwindigkeit)
+# Skalierung der Geschwindigkeit [%]
 scales:
   linear:
     x: 0.5
   angular:
     z: 1.0
+
+distance: 
+  min: 0.12
+  max: 3.5
+  critical: 0.8
   
 # Haptische Outputs
 rumble:
   # Vibration bei Bewegung
   velocity:
-    linear: 0.5
-    angular: 0.2
-  # Objekterkennung
-  distance: 0.2
+    # Stärke der Vibration [%]
+    linear: 0.2
+    angular: 0.1
+  # haptische Objekterkennung [m]
+  distance:
+    min: 0.12
+    max: 0.8
