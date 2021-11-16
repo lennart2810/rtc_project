@@ -270,4 +270,8 @@ if __name__ == '__main__':
     layout = sys.argv[1]
     map_path = sys.argv[2]
     map_saver_path = sys.argv[3]
-    main(layout, map_path, map_saver_path)
+
+    try:
+        main(layout, map_path, map_saver_path)
+    except rospy.ROSInterruptException:
+        rospy.loginfo(" Error ")
