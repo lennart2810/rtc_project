@@ -11,7 +11,7 @@ import subprocess
 from geometry_msgs.msg import Twist
 from ds4_driver.msg import Status, Feedback
 from sensor_msgs.msg import LaserScan
-from math import isnan
+from math import isnan  # Not a Number --> return True
 
 
 class StatusToTurtleTwist(object):
