@@ -12,7 +12,6 @@ from geometry_msgs.msg import Twist
 from ds4_driver.msg import Status, Feedback
 from sensor_msgs.msg import LaserScan
 from math import isnan
-#teswt 
 
 
 class StatusToTurtleTwist(object):
