@@ -59,6 +59,7 @@ class StatusToTurtleTwist(object):
         # /scan
         self.distance = 0  # im Moment nur Float --> Array
         rospy.Subscriber('scan', LaserScan, self.cb_scan, queue_size=1)
+        # Modularisieren ?! --> eigene Klasse für schreiben bzw. eigenen Knoten
 
         # /debug
         # self.pub_debug = rospy.Publisher('debug', Float64, queue_size=1)
