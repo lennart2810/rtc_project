@@ -27,6 +27,7 @@ distance:
   min: 0.12
   max: 3.5
   critical: 0.8
+  n: 2
   
 # Haptische Outputs
 rumble:
@@ -35,7 +36,3 @@ rumble:
     # Stärke der Vibration [%]
     linear: 0.2
     angular: 0.1
-  # haptische Objekterkennung [m]
-  distance:
-    min: 0.12
-    max: 0.8

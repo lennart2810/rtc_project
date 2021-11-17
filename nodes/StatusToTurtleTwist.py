@@ -199,15 +199,16 @@ class StatusToTurtleTwist(object):
 
         x = self.distance  # front scan
         crit_dist = self.distanaces.get('critical')  # kritischer Abstand
+        n = self.distanaces.get('n')
 
         # Geschwindigkeit nach Vorne begrenzen / blockieren
-        # 1/3 der kritischen Distanz --> linear.x = 50%; darunter 0%
-        # reduce_vel(x) = (1-0.5)/((crit/3)-crit) * (x-(crit/3)) + 0.5
+        # 1/n der kritischen Distanz --> linear.x = 50%; darunter 0%
+        # reduce_vel(x) = (1-0.5)/((crit/n)-crit) * (x-(crit/n)) + 0.5
 
-        if x <= crit_dist/3:
+        if x <= crit_dist/n:
             return 0
         elif x > crit_dist/3 and x <= crit_dist:
-            p = (0.5/(crit_dist/3)) * (x-(crit_dist/3)) + 0.5
+            p = (0.5/(crit_dist/n)) * (x-(crit_dist/n)) + 0.5
             p = round(p, 2)
             p = max(min(1, p), 0.5)
             return p
