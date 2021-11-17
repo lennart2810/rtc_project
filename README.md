@@ -29,7 +29,7 @@
 
 <div align="center">
   <a href="https://www.turtlebot.com/">
-    <img src="appendix/turtlebot3_with_logo.png" alt="Images" width="500" height="200">
+    <img src="appendix/Sicherheitsfunktionen.png" alt="Images" width="500" height="420">
   </a>
 </div>
 
