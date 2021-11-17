@@ -27,6 +27,12 @@
 - :heavy_check_mark: ReadMe anlegen
 - :soon: avoid Obstacles
 
+<div align="center">
+  <a href="https://www.turtlebot.com/">
+    <img src="appendix/turtlebot3_with_logo.png" alt="Images" width="500" height="200">
+  </a>
+</div>
+
 
 ## Credits
 * RTC - [ProfJust](https://github.com/ProfJust/rtc)
