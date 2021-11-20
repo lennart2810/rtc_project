@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<robot name="visual">
+
+  <material name="blue">
+    <color rgba="0.1 0.1 0.8 1"/>
+  </material>
+  <material name="black">
+    <color rgba="0 0 0 1"/>
+  </material>
+  <material name="green">
+    <color rgba="0 1 0 0.95"/>
+  </material>
+  <material name="white">
+    <color rgba="1 1 1 0.95"/>
+  </material>
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/lennart/catkin_ws/src/rtc_project/models/meshes/AKH2-2.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0.8"/>
+      <material name="blue"/>
+    </visual>
+  </link>
+
+  <link name="wrench_encoder">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/lennart/catkin_ws/src/rtc_project/models/meshes/WRENCH.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <origin rpy="0 0 -1.571" xyz="0 0 0.8"/>
+      <material name="white"/>
+    </visual>
+  </link>
+  
+  <joint name="encoderRad" type="revolute">
+    <parent link="base_link"/>
+    <child link="wrench_encoder"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="0.0" upper="6.28" velocity="0.1"/>
+  </joint>
+  
+  <link name="wrench_mdrm">
+    <visual>
+      <geometry>
+        <mesh filename="file:///home/lennart/catkin_ws/src/prototype_pkg/meshes/WRENCH.stl" scale="0.01 0.01 0.01"/>
+      </geometry>
+      <origin rpy="0 0 -1.571" xyz="0 0 0.8"/>
+      <material name="green"/>
+    </visual>
+  </link>
+  
+  <joint name="mdrmRad" type="revolute">
+    <parent link="base_link"/>
+    <child link="wrench_mdrm"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="1000.0" lower="0.0" upper="6.28" velocity="0.1"/>
+  </joint>
+
+</robot>
