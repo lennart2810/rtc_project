@@ -12,7 +12,12 @@
   </group>
   
   <!-- Slam Gmapping -->
-  <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch" />
+  <!-- <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch" /> -->
+  <node pkg="rtc_project" 
+        type="turtlebot3_slam.sh" 
+        name="turtlebot3_slam_node" 
+        output="screen" >
+  </node>  
   
   <!-- StatusToTurtleTwist als bash script -> eigenes Terminal -->
   <node pkg="rtc_project" 
