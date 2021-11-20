@@ -6,6 +6,7 @@
   <arg name="map_path" default="/home/lennart/catkin_ws/src/rtc_project/maps/default_map"/>
 
   <!-- Gazeboo; wird nur gestartet, wenn gazebo_sim == true -->
+  <!-- für Praktika mit realen Turtlebot auf false setzen -->
   <group if="$(arg gazebo_sim)">
     <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
   </group>

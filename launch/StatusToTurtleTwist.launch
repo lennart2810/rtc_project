@@ -3,7 +3,6 @@
 
   <arg name="controller_layout" default="1"/>
   <arg name="map_path" default="/home/lennart/catkin_ws/src/rtc_project/maps/default_map"/>
-  <arg name="map_saver_path" default="/home/lennart/catkin_ws/src/rtc_project/shell/map_saver.sh"/>
 
   <!-- ds4_driver starten -->
   <include file="$(find ds4_driver)/launch/ds4_driver.launch" /> 
@@ -13,11 +12,8 @@
         type="StatusToTurtleTwist.py" 
         name="status_to_turtle_twist" 
         output="screen" 
-        args="$(arg controller_layout) $(arg map_path) $(arg map_saver_path)" >
+        args="$(arg controller_layout) $(arg map_path)" >
         <rosparam command="load" file="$(find rtc_project)/config/StatusToTurtleTwist.yaml" />
   </node>
-  
-  <!-- Alternativ: mehrere yaml-files -->
-  <!-- <rosparam command="load" file="$(find rtc_project)/config/StatusToTurtleTwist_$(arg controller_layout).yaml" /> -->
   
 </launch>

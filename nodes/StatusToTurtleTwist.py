@@ -4,6 +4,7 @@
 # Version vom 16.11.2021 by LF
 # ----------------------------
 
+import os
 import sys
 import rospy
 import subprocess
@@ -15,11 +16,16 @@ from math import isnan  # Not a Number --> return True
 
 
 class StatusToTurtleTwist(object):
-    def __init__(self, controller_layout, map_path, map_saver_path):
+    def __init__(self, filename, controller_layout, map_path):
 
+        # 'relative' Pfade zu shell scipten 
+        self.kill_slam_path = filename.replace('nodes/StatusToTurtleTwist.py', 'shell/turtlebot3_slam_kill.sh')
+        self.map_saver_path = filename.replace('nodes/StatusToTurtleTwist.py', 'shell/map_saver.sh')
+        self.navigation_path = filename.replace('nodes/StatusToTurtleTwist.py', 'shell/turtlebot3_navigation.sh')
+      
         # Übergebene Argumente
         self.map_path = map_path  # Speicherpfad: SLAM-Karte
-        self.map_saver_path = map_saver_path  # map_saver.sh
+        self.map_saved = False
 
         # ROS Parameter einlesen
         self.inputs = rospy.get_param('~inputs')
@@ -142,16 +148,31 @@ class StatusToTurtleTwist(object):
             self.pub_vel_flag = False
             rospy.loginfo("pub_vel: %s", self.pub_vel_flag)
 
-        # Batterie-Ausgabe mit Dreieck
-        if msg.button_triangle and not self.prev_status.button_triangle:
+        # Batterie-Ausgabe mit Trackpad-Btn
+        if msg.button_trackpad and not self.prev_status.button_trackpad:
             rospy.loginfo("Battery: %s %%", (msg.battery_percentage * 100))
             rospy.loginfo("USB: %s", msg.plug_usb)
 
         # shell script (map_saver.sh) mit Viereck starten
-        if msg.button_square and not self.prev_status.button_square:
-            rospy.loginfo("execute: %s", self.map_saver_path)
-            rospy.loginfo("saving map to: %s", self.map_path)
+        if msg.button_square and not self.prev_status.button_square and not self.map_saved:
+            rospy.loginfo("")
+            rospy.loginfo("$ rosrun map_server map_saver -f %s", self.map_path)
+            #rospy.loginfo("execute: %s", self.map_saver_path)
+            #rospy.loginfo("saving map to: %s", self.map_path)
             subprocess.call([self.map_saver_path, self.map_path])
+            self.map_saved = True
+
+        # turtlebot3_slam.sh mit Dreieck beenden
+        # und turtlbebot3_navigation.sh starten
+        # vorher prüfen, ob node überhaupt aktiv ist !!!
+        if msg.button_triangle and not self.prev_status.button_triangle and self.map_saved:
+            rospy.loginfo("$ rosnode kill /turtlebot3_slam_gmapping")
+            subprocess.call([self.kill_slam_path])
+            rospy.loginfo("$ rosrun turtlebot3_navigation turtlebot3_navigation.launch map_file:=%s", self.map_path)
+            subprocess.call([self.navigation_path, self.map_path])
+
+        elif msg.button_triangle and not self.prev_status.button_triangle and not self.map_saved:
+            rospy.loginfo("$ map not saved !!!")
 
         self.prev_status = msg
 
@@ -259,20 +280,21 @@ class StatusToTurtleTwist(object):
         self.pub_feedback.publish(self.feedback)
 
 
-def main(layout, map_path, map_saver_path):
+def main(filename, layout, map_path):
     rospy.init_node('status_to_turtle_twist')
 
-    StatusToTurtleTwist(layout, map_path, map_saver_path)
+    StatusToTurtleTwist(filename, layout, map_path)
 
     rospy.spin()
 
 
 if __name__ == '__main__':
+    filename = sys.argv[0]
     layout = sys.argv[1]
     map_path = sys.argv[2]
-    map_saver_path = sys.argv[3]
+    #map_saver_path = sys.argv[3]
 
     try:
-        main(layout, map_path, map_saver_path)
+        main(filename, layout, map_path)
     except rospy.ROSInterruptException:
         rospy.loginfo(" Error ")
