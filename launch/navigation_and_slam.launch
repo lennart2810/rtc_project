@@ -18,12 +18,30 @@
         output="screen" 
         args="$(arg controller_layout) $(arg map_path)" >
   </node>
+
+  <!-- Navigation als bash script -> eigenes Terminal-->
+  <!-- mit rviz-->
+  <node pkg="rtc_project" 
+        type="turtlebot3_navigation.sh" 
+        name="turtlebot3_navigation_node" 
+        output="screen" 
+        args="$(arg map_path)" >
+  </node> 
   
   <!-- Slam Gmapping als bash script -> eigenes Terminal-->
+  <!-- ohne rviz-->
   <node pkg="rtc_project" 
         type="turtlebot3_slam.sh" 
         name="turtlebot3_slam_node" 
         output="screen" >
   </node>  
+
+
+
+
+  <!-- Knoten, der map_saver und map_server regelmäßig aufruft -->
   
 </launch>
+
+<!-- StatusToTurtleTwist.py als python script ausführen mit eigenem Terminal -->
+<!-- launch-prefix="gnome-terminal (minusminus)geometry 20x20+75+14 -e" -->

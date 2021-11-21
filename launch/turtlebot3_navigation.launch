@@ -5,7 +5,7 @@
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
 
-  <!-- Turtlebot3 -->
+  <!-- Turtlebot3 bringup bereits durch Slam-->
   <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
     <arg name="model" value="$(arg model)" />
   </include>
@@ -24,7 +24,7 @@
 
   <!-- rviz -->
   <group if="$(arg open_rviz)"> 
-    <node pkg="rviz" type="rviz" name="rviz" required="true"
+    <node pkg="rviz" type="rviz" name="rviz_navigation" required="true"
           args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
   </group>
 </launch>

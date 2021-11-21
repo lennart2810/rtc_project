@@ -154,11 +154,9 @@ class StatusToTurtleTwist(object):
             rospy.loginfo("USB: %s", msg.plug_usb)
 
         # shell script (map_saver.sh) mit Viereck starten
-        if msg.button_square and not self.prev_status.button_square and not self.map_saved:
+        if msg.button_square and not self.prev_status.button_square:
             rospy.loginfo("")
             rospy.loginfo("$ rosrun map_server map_saver -f %s", self.map_path)
-            #rospy.loginfo("execute: %s", self.map_saver_path)
-            #rospy.loginfo("saving map to: %s", self.map_path)
             subprocess.call([self.map_saver_path, self.map_path])
             self.map_saved = True
 
@@ -167,7 +165,7 @@ class StatusToTurtleTwist(object):
         # vorher prüfen, ob node überhaupt aktiv ist !!!
         if msg.button_triangle and not self.prev_status.button_triangle and self.map_saved:
             rospy.loginfo("$ rosnode kill /turtlebot3_slam_gmapping")
-            subprocess.call([self.kill_slam_path])
+            #subprocess.call([self.kill_slam_path])
             rospy.loginfo("$ rosrun turtlebot3_navigation turtlebot3_navigation.launch map_file:=%s", self.map_path)
             subprocess.call([self.navigation_path, self.map_path])
 

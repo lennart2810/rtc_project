@@ -4,4 +4,4 @@
 input="$1"
 echo "$input"
 gnome-terminal -e "rosnode kill /turtlebot3_slam_gmapping"
-gnome-terminal -e "rosnode kill /rviz"
+gnome-terminal -e "rosnode kill /rviz_slam"
