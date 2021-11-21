@@ -4,7 +4,7 @@
 # Version vom 16.11.2021 by LF
 # ----------------------------
 
-import os
+
 import sys
 import rospy
 import subprocess
@@ -292,7 +292,6 @@ if __name__ == '__main__':
     filename = sys.argv[0]
     layout = sys.argv[1]
     map_path = sys.argv[2]
-    #map_saver_path = sys.argv[3]
 
     try:
         main(filename, layout, map_path)
