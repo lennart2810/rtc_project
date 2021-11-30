@@ -16,7 +16,7 @@ from math import isnan  # Not a Number --> return True
 
 
 class StatusToTurtleTwist(object):
-    def __init__(self, filename, controller_layout, map_name):
+    def __init__(self, filename, controller_layout, rumble, map_name):
 
         # 'relative' Pfade zu shell scipten 
         #self.kill_slam_path = filename.replace('nodes/ps4_turtle_control.py', 'shell/turtlebot3_slam_kill.sh')
@@ -34,7 +34,7 @@ class StatusToTurtleTwist(object):
         self.distanaces = rospy.get_param('~distance')
 
         # Controller-Layout einstellen
-        self.__init__controller_layout(controller_layout)
+        self.__init__controller_layout(controller_layout, rumble)
 
         # Lambda-Funktion für visuelle/haptische Objekterkennung
         self.__init__lambda_func()
@@ -56,8 +56,12 @@ class StatusToTurtleTwist(object):
         # /set_feedback
         self.feedback = Feedback()
         self.feedback.set_led = True
-        self.feedback.set_rumble = True
         self.feedback.set_led_flash = True
+
+        if rumble == 'true':
+            self.feedback.set_rumble = True
+
+
         self.pub_feedback = \
             rospy.Publisher('set_feedback', Feedback, queue_size=1)
 
@@ -69,7 +73,7 @@ class StatusToTurtleTwist(object):
         # /debug
         # self.pub_debug = rospy.Publisher('debug', Float64, queue_size=1)
 
-    def __init__controller_layout(self, layout):
+    def __init__controller_layout(self, layout, rumble):
 
         # gewähltes Layout ermitteln
         my_item = {}
@@ -95,6 +99,11 @@ class StatusToTurtleTwist(object):
 
         rospy.loginfo('Controller Layout:')
         rospy.loginfo('%s: %s', layout, self.inputs)
+
+        if rumble == 'true':
+            rospy.loginfo("Rumble is activated")
+        else:
+            rospy.loginfo("no Rumble")
 
     def __init__lambda_func(self):
 
@@ -147,29 +156,35 @@ class StatusToTurtleTwist(object):
             self.pub_vel_flag = False
             rospy.loginfo("pub_vel: %s", self.pub_vel_flag)
 
+        # toggle feedback rumble mit Options
+        if msg.button_options and not self.prev_status.button_options:
+            if not self.feedback.set_rumble:
+                self.feedback.set_rumble = True
+            else:
+                self.feedback.set_rumble = False
+
         # Batterie-Ausgabe mit Trackpad-Btn
         if msg.button_trackpad and not self.prev_status.button_trackpad:
             rospy.loginfo("Battery: %s %%", (msg.battery_percentage * 100))
             rospy.loginfo("USB: %s", msg.plug_usb)
 
         # shell script (map_saver.sh) mit Viereck starten
-        if msg.button_square and not self.prev_status.button_square:
-            rospy.loginfo("")
+        if msg.button_share and not self.prev_status.button_share:
             rospy.loginfo("$ rosrun map_server map_saver -f %s", self.map_path)
             subprocess.call([self.map_saver_path, self.map_path])
             self.map_saved = True
 
-        # turtlebot3_slam.sh mit Dreieck beenden
-        # und turtlbebot3_navigation.sh starten
-        # vorher prüfen, ob node überhaupt aktiv ist !!!
-        if msg.button_triangle and not self.prev_status.button_triangle and self.map_saved:
-            rospy.loginfo("$ rosnode kill /turtlebot3_slam_gmapping")
-            #subprocess.call([self.kill_slam_path])
-            rospy.loginfo("$ rosrun turtlebot3_navigation turtlebot3_navigation.launch map_file:=%s", self.map_path)
-            #subprocess.call([self.navigation_path, self.map_path])
+        # # turtlebot3_slam.sh mit Dreieck beenden
+        # # und turtlbebot3_navigation.sh starten
+        # # vorher prüfen, ob node überhaupt aktiv ist !!!
+        # if msg.button_triangle and not self.prev_status.button_triangle and self.map_saved:
+        #     rospy.loginfo("$ rosnode kill /turtlebot3_slam_gmapping")
+        #     #subprocess.call([self.kill_slam_path])
+        #     rospy.loginfo("$ rosrun turtlebot3_navigation turtlebot3_navigation.launch map_file:=%s", self.map_path)
+        #     #subprocess.call([self.navigation_path, self.map_path])
 
-        elif msg.button_triangle and not self.prev_status.button_triangle and not self.map_saved:
-            rospy.loginfo("$ map not saved !!!")
+        # elif msg.button_triangle and not self.prev_status.button_triangle and not self.map_saved:
+        #     rospy.loginfo("$ map not saved !!!")
 
         self.prev_status = msg
 
@@ -209,6 +224,8 @@ class StatusToTurtleTwist(object):
 
             # /set_feedback <-- Vibration beim Fahren
             self.feedback.rumble_small = abs(vel_rumble)
+
+            # rumble_smal für sonar verwenden!!
 
             # /cmd_vel publishen
             self.pub_vel.publish(self.vel_msg)
@@ -277,10 +294,10 @@ class StatusToTurtleTwist(object):
         self.pub_feedback.publish(self.feedback)
 
 
-def main(filename, layout, map_map_namepath):
+def main(filename, layout, rumble, map_name):
     rospy.init_node('ps4_turtle_control')
 
-    StatusToTurtleTwist(filename, layout, map_name)
+    StatusToTurtleTwist(filename, layout, rumble, map_name)
 
     rospy.spin()
 
@@ -288,10 +305,10 @@ def main(filename, layout, map_map_namepath):
 if __name__ == '__main__':
     filename = sys.argv[0]
     layout = sys.argv[1]
-    map_name = sys.argv[2]
+    rumble = sys.argv[2]
+    map_name = sys.argv[3]
 
     try:
-        main(filename, layout, map_name)
+        main(filename, layout, rumble, map_name)
     except rospy.ROSInterruptException:
         rospy.loginfo(" Error ")
-

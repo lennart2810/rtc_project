@@ -3,6 +3,7 @@
   
   <arg name="gazebo_sim" default="true"/>
   <arg name="controller_layout" default="2"/>
+  <arg name="rumble" default="true"/>
   <arg name="map_name" default="default_map"/>
 
   <!-- Gazeboo; wird nur gestartet, wenn gazebo_sim == true -->
@@ -13,7 +14,8 @@
   <!-- ps4_turtle_control.launch-> kein eigenes Terminal -->
   <include file="$(find rtc_project)/launch/ps4_turtle_control.launch" > 
     <arg name="controller_layout" value="$(arg controller_layout)" />
-    <arg name="map_name" value="map_name" />
+    <arg name="rumble" value="$(arg rumble)" />
+    <arg name="map_name" value="$(arg map_name)" />
   </include>
   
   <!-- slam gmapping -->
