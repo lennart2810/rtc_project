@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+  
+  <arg name="gazebo_sim" default="true"/>
+
+  <arg name="controller_layout" default="2"/>
+  <arg name="map_name" default="default_map"/>
+
+  <!-- Gazeboo; wird nur gestartet, wenn gazebo_sim == true -->
+  <group if="$(arg gazebo_sim)">
+    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
+  </group>
+  
+  <!-- StatusToTurtleTwist als launch file -> kein Screen-Output -->
+  <include file="$(find rtc_project)/launch/ps4_turtle_control.launch" > 
+    <arg name="controller_layout" value="$(arg controller_layout)" />
+    <arg name="map_name" value="map_name" />
+  </include>
+  
+  <!--   <node pkg="rtc_project" 
+        type="StatusToTurtleTwist.sh" 
+        name="status_to_turtle_twist" 
+        output="screen" 
+        args="$(arg controller_layout) $(arg map_name)" >
+  </node> -->
+
+  
+  <!-- Slam Gmapping -->
+  <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch" />
+
+  <!-- 
+  <node pkg="rtc_project" 
+    type="turtlebot3_slam.sh" 
+    name="turtlebot3_slam_node" 
+    output="screen" >
+  </node>  
+  -->
+ 
+  
+</launch>

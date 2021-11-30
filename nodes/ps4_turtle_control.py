@@ -16,15 +16,14 @@ from math import isnan  # Not a Number --> return True
 
 
 class StatusToTurtleTwist(object):
-    def __init__(self, filename, controller_layout, map_path):
+    def __init__(self, filename, controller_layout, map_name):
 
         # 'relative' Pfade zu shell scipten 
-        self.kill_slam_path = filename.replace('nodes/StatusToTurtleTwist.py', 'shell/turtlebot3_slam_kill.sh')
-        self.map_saver_path = filename.replace('nodes/StatusToTurtleTwist.py', 'shell/map_saver.sh')
-        self.navigation_path = filename.replace('nodes/StatusToTurtleTwist.py', 'shell/turtlebot3_navigation.sh')
+        #self.kill_slam_path = filename.replace('nodes/ps4_turtle_control.py', 'shell/turtlebot3_slam_kill.sh')
+        self.map_saver_path = filename.replace('nodes/ps4_turtle_control.py', 'shell/map_saver.sh')
+        #self.navigation_path = filename.replace('nodes/ps4_turtle_control.py', 'shell/turtlebot3_navigation.sh')
+        self.map_path = filename.replace('nodes/ps4_turtle_control.py', 'maps/' + map_name)
 
-        # Übergebene Argumente
-        self.map_path = map_path  # Speicherpfad: SLAM-Karte
         self.map_saved = False
 
         # ROS Parameter einlesen
@@ -165,9 +164,9 @@ class StatusToTurtleTwist(object):
         # vorher prüfen, ob node überhaupt aktiv ist !!!
         if msg.button_triangle and not self.prev_status.button_triangle and self.map_saved:
             rospy.loginfo("$ rosnode kill /turtlebot3_slam_gmapping")
-            subprocess.call([self.kill_slam_path])
+            #subprocess.call([self.kill_slam_path])
             rospy.loginfo("$ rosrun turtlebot3_navigation turtlebot3_navigation.launch map_file:=%s", self.map_path)
-            subprocess.call([self.navigation_path, self.map_path])
+            #subprocess.call([self.navigation_path, self.map_path])
 
         elif msg.button_triangle and not self.prev_status.button_triangle and not self.map_saved:
             rospy.loginfo("$ map not saved !!!")
@@ -278,10 +277,10 @@ class StatusToTurtleTwist(object):
         self.pub_feedback.publish(self.feedback)
 
 
-def main(filename, layout, map_path):
-    rospy.init_node('status_to_turtle_twist')
+def main(filename, layout, map_map_namepath):
+    rospy.init_node('ps4_turtle_control')
 
-    StatusToTurtleTwist(filename, layout, map_path)
+    StatusToTurtleTwist(filename, layout, map_name)
 
     rospy.spin()
 
@@ -289,10 +288,10 @@ def main(filename, layout, map_path):
 if __name__ == '__main__':
     filename = sys.argv[0]
     layout = sys.argv[1]
-    map_path = sys.argv[2]
+    map_name = sys.argv[2]
 
     try:
-        main(filename, layout, map_path)
+        main(filename, layout, map_name)
     except rospy.ROSInterruptException:
         rospy.loginfo(" Error ")
 

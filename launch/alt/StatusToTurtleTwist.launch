@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="controller_layout" default="1"/>
-  <arg name="map_path" default="/home/lennart/catkin_ws/src/rtc_project/maps/default_map"/>
+  <arg name="controller_layout" default="2"/>
+  <arg name="map_path" default="/home/lennart/catkin_ws/src/rtc_project/maps/test_map"/>
 
   <!-- ds4_driver starten -->
   <include file="$(find ds4_driver)/launch/ds4_driver.launch" /> 

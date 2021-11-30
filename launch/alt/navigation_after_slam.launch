@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
 <launch>
 
-  <arg name="controller_layout" default="1"/>
+  <arg name="controller_layout" default="2"/>
   <arg name="gazebo_sim" default="true"/>
   <arg name="map_path" default="/home/lennart/catkin_ws/src/rtc_project/maps/default_map"/>
 
   <!-- Gazeboo; wird nur gestartet, wenn gazebo_sim == true -->
+  <!-- Für Praktika am realen Turtlebot auf false setzen -->
   <group if="$(arg gazebo_sim)">
     <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
   </group>
-  
-  <!-- StatusToTurtleTwist als launch file -> kein Screen-Output -->
-  <!-- <include file="$(find rtc_project)/launch/StatusToTurtleTwist.launch" > 
-    <arg name="controller_layout" value="controller_layout" />
-    <arg name="map_path" value="map_path" />
-  </include> -->
   
   <!-- StatusToTurtleTwist als bash script -> eigenes Terminal -->
   <node pkg="rtc_project" 
@@ -24,8 +19,7 @@
         args="$(arg controller_layout) $(arg map_path)" >
   </node>
   
-  <!-- Slam Gmapping -->
-  <!-- <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch" /> -->
+  <!-- Slam Gmapping als bash script -> eigenes Terminal-->
   <node pkg="rtc_project" 
         type="turtlebot3_slam.sh" 
         name="turtlebot3_slam_node" 
