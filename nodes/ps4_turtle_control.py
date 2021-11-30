@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-# -- StatusToTurtleTwist.py --
-# Version vom 16.11.2021 by LF
+# -- ps4_turtle_control.py --
+# Version vom 30.11.2021 by LF
 # ----------------------------
 
 
@@ -12,16 +12,14 @@ import subprocess
 from geometry_msgs.msg import Twist
 from ds4_driver.msg import Status, Feedback
 from sensor_msgs.msg import LaserScan
-from math import isnan  # Not a Number --> return True
+from math import isnan  # is not a number
 
 
 class StatusToTurtleTwist(object):
     def __init__(self, filename, controller_layout, rumble, map_name):
 
-        # 'relative' Pfade zu shell scipten 
-        #self.kill_slam_path = filename.replace('nodes/ps4_turtle_control.py', 'shell/turtlebot3_slam_kill.sh')
+        # 'relative' Pfade zu shell scipten
         self.map_saver_path = filename.replace('nodes/ps4_turtle_control.py', 'shell/map_saver.sh')
-        #self.navigation_path = filename.replace('nodes/ps4_turtle_control.py', 'shell/turtlebot3_navigation.sh')
         self.map_path = filename.replace('nodes/ps4_turtle_control.py', 'maps/' + map_name)
 
         self.map_saved = False
@@ -61,14 +59,13 @@ class StatusToTurtleTwist(object):
         if rumble == 'true':
             self.feedback.set_rumble = True
 
-
         self.pub_feedback = \
             rospy.Publisher('set_feedback', Feedback, queue_size=1)
 
         # /scan
-        self.distance = 0  # im Moment nur Float --> Array
+        self.distance = 0
+        # im Moment nur Float --> Array, um Distanz nach vorne zu mitteln
         rospy.Subscriber('scan', LaserScan, self.cb_scan, queue_size=1)
-        # Modularisieren ?! --> eigene Klasse für schreiben bzw. eigenen Knoten
 
         # /debug
         # self.pub_debug = rospy.Publisher('debug', Float64, queue_size=1)
@@ -148,13 +145,12 @@ class StatusToTurtleTwist(object):
 
     def set_cmd_btn(self, msg):
 
-        # toggle pub_vel mit X und O
-        if msg.button_cross and not self.pub_vel_flag:
-            self.pub_vel_flag = True
-            rospy.loginfo("pub_vel: %s", self.pub_vel_flag)
-        elif msg.button_circle and self.pub_vel_flag:
-            self.pub_vel_flag = False
-            rospy.loginfo("pub_vel: %s", self.pub_vel_flag)
+        # toggle pub_vel mit PS Taste
+        if msg.button_ps and not self.prev_status.button_ps:
+            if not self.pub_vel_flag:
+                self.pub_vel_flag = True
+            else:
+                self.pub_vel_flag = False
 
         # toggle feedback rumble mit Options
         if msg.button_options and not self.prev_status.button_options:
@@ -173,18 +169,6 @@ class StatusToTurtleTwist(object):
             rospy.loginfo("$ rosrun map_server map_saver -f %s", self.map_path)
             subprocess.call([self.map_saver_path, self.map_path])
             self.map_saved = True
-
-        # # turtlebot3_slam.sh mit Dreieck beenden
-        # # und turtlbebot3_navigation.sh starten
-        # # vorher prüfen, ob node überhaupt aktiv ist !!!
-        # if msg.button_triangle and not self.prev_status.button_triangle and self.map_saved:
-        #     rospy.loginfo("$ rosnode kill /turtlebot3_slam_gmapping")
-        #     #subprocess.call([self.kill_slam_path])
-        #     rospy.loginfo("$ rosrun turtlebot3_navigation turtlebot3_navigation.launch map_file:=%s", self.map_path)
-        #     #subprocess.call([self.navigation_path, self.map_path])
-
-        # elif msg.button_triangle and not self.prev_status.button_triangle and not self.map_saved:
-        #     rospy.loginfo("$ map not saved !!!")
 
         self.prev_status = msg
 
@@ -303,6 +287,8 @@ def main(filename, layout, rumble, map_name):
 
 
 if __name__ == '__main__':
+
+    # Argumente aus ps4_turtle_control.launch
     filename = sys.argv[0]
     layout = sys.argv[1]
     rumble = sys.argv[2]
