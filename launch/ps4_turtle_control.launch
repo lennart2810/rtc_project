@@ -2,7 +2,6 @@
 <launch>
 
   <arg name="controller_layout" default="1"/>
-  <arg name="rumble" default="true"/>
   <arg name="map_name" default="default_map"/>
 
   <!-- ds4_driver starten -->
@@ -10,10 +9,10 @@
 
   <!-- ps4_turtle_control starten -->
   <node pkg="rtc_project" 
-        type="ps4_turtle_control.py" 
+        type="ps4_slam.py" 
         name="ps4_turtle_control" 
         output="screen" 
-        args="$(arg controller_layout) $(arg rumble) $(arg map_name)" >
+        args="$(arg controller_layout) $(arg map_name)" >
         <rosparam command="load" file="$(find rtc_project)/config/ps4_turtle_control.yaml" />
   </node>
   

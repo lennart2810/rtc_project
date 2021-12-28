@@ -15,15 +15,16 @@
 
   <!-- ps4_turtle_control starten -->
   <node pkg="rtc_project" 
-        type="ps4_slam.py" 
-        name="ps4_slam" 
+        type="ps4_set_navigation_points.py" 
+        name="ps4_set_navigation_points" 
         output="screen" 
         args="$(arg controller_layout) $(arg map_name)" >
         <rosparam command="load" file="$(find rtc_project)/config/ps4_turtle_control.yaml" />
   </node>
   
 
-  <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch" />
+  <!-- <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch" /> -->
+  
 
 
 </launch>

@@ -16,11 +16,12 @@ from math import isnan  # is not a number
 
 
 class StatusToTurtleTwist(object):
-    def __init__(self, filename, controller_layout, rumble, map_name):
+    def __init__(self, filename, controller_layout, map_name):
 
         # 'relative' Pfade zu shell scipten
-        self.map_saver_path = filename.replace('nodes/ps4_turtle_control.py', 'shell/map_saver.sh')
-        self.map_path = filename.replace('nodes/ps4_turtle_control.py', 'maps/' + map_name)
+        self.map_saver = filename.replace('nodes/ps4_turtle_control.py', 'shell/map_saver.sh')
+        self.map_file = filename.replace('nodes/ps4_turtle_control.py', 'maps/' + map_name)
+        self.map_path = filename.replace('nodes/ps4_turtle_control.py', 'maps/' + map_name + '_path')
 
         self.map_saved = False
 
@@ -32,7 +33,7 @@ class StatusToTurtleTwist(object):
         self.distanaces = rospy.get_param('~distance')
 
         # Controller-Layout einstellen
-        self.__init__controller_layout(controller_layout, rumble)
+        self.__init__controller_layout(controller_layout)
 
         # Lambda-Funktion für visuelle/haptische Objekterkennung
         self.__init__lambda_func()
@@ -56,8 +57,7 @@ class StatusToTurtleTwist(object):
         self.feedback.set_led = True
         self.feedback.set_led_flash = True
 
-        if rumble == 'true':
-            self.feedback.set_rumble = True
+        self.feedback.set_rumble = False
 
         self.pub_feedback = \
             rospy.Publisher('set_feedback', Feedback, queue_size=1)
@@ -67,10 +67,12 @@ class StatusToTurtleTwist(object):
         # im Moment nur Float --> Array, um Distanz nach vorne zu mitteln
         rospy.Subscriber('scan', LaserScan, self.cb_scan, queue_size=1)
 
+        # set navigation points
+
         # /debug
         # self.pub_debug = rospy.Publisher('debug', Float64, queue_size=1)
 
-    def __init__controller_layout(self, layout, rumble):
+    def __init__controller_layout(self, layout):
 
         # gewähltes Layout ermitteln
         my_item = {}
@@ -96,11 +98,6 @@ class StatusToTurtleTwist(object):
 
         rospy.loginfo('Controller Layout:')
         rospy.loginfo('%s: %s', layout, self.inputs)
-
-        if rumble == 'true':
-            rospy.loginfo("Rumble is activated")
-        else:
-            rospy.loginfo("no Rumble")
 
     def __init__lambda_func(self):
 
@@ -164,11 +161,15 @@ class StatusToTurtleTwist(object):
             rospy.loginfo("Battery: %s %%", (msg.battery_percentage * 100))
             rospy.loginfo("USB: %s", msg.plug_usb)
 
-        # shell script (map_saver.sh) mit Viereck starten
+        # shell script (map_saver.sh) mit Shate starten
         if msg.button_share and not self.prev_status.button_share:
-            rospy.loginfo("$ rosrun map_server map_saver -f %s", self.map_path)
-            subprocess.call([self.map_saver_path, self.map_path])
+            # slam mode (map_saver)
+            rospy.loginfo("$ rosrun map_server map_saver -f %s", self.map_file)
+            subprocess.call([self.map_saver, self.map_file])
             self.map_saved = True
+
+            # set navigation points
+            # tf subscriben, pose extrahieren und dann in file speichern
 
         self.prev_status = msg
 
@@ -278,10 +279,10 @@ class StatusToTurtleTwist(object):
         self.pub_feedback.publish(self.feedback)
 
 
-def main(filename, layout, rumble, map_name):
+def main(filename, layout, map_name):
     rospy.init_node('ps4_turtle_control')
 
-    StatusToTurtleTwist(filename, layout, rumble, map_name)
+    StatusToTurtleTwist(filename, layout, map_name)
 
     rospy.spin()
 
@@ -291,10 +292,9 @@ if __name__ == '__main__':
     # Argumente aus ps4_turtle_control.launch
     filename = sys.argv[0]
     layout = sys.argv[1]
-    rumble = sys.argv[2]
-    map_name = sys.argv[3]
+    map_name = sys.argv[2]
 
     try:
-        main(filename, layout, rumble, map_name)
+        main(filename, layout, map_name)
     except rospy.ROSInterruptException:
         rospy.loginfo(" Error ")
