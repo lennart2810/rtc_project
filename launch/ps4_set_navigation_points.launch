@@ -4,6 +4,7 @@
   <arg name="gazebo_sim" default="true"/>
   <arg name="controller_layout" default="1"/>
   <arg name="map_name" default="default_map"/>
+  <arg name="map_file" default="/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml"/>
 
   <!-- Gazeboo; wird nur gestartet, wenn gazebo_sim == true -->
   <group if="$(arg gazebo_sim)">
@@ -22,8 +23,12 @@
         <rosparam command="load" file="$(find rtc_project)/config/ps4_turtle_control.yaml" />
   </node>
   
+  <!-- navigation OHNE goal starten -->
+  <include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch" > 
+    <arg name="map_file" value="$(arg map_file)" />
+  </include>
 
-  <!-- <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch" /> -->
+  <!-- <include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch" /> -->
   
 
 
