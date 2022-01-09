@@ -82,8 +82,8 @@ da `/tf` sonst von zu vielen nodes gepublished wird!
 * [naoki-mizuno](https://github.com/naoki-mizuno/ds4_driver)
 
 ## Contact
-_Lennart Fuhrig_ - [GitHub](https://github.com/lennart2810) 
-_Marcel Heinen_
-_Jonas Klinker_
+* _Lennart Fuhrig_ - [GitHub](https://github.com/lennart2810) 
+* _Marcel Heinen_
+* _Jonas Klinker_
 
 <p align="right"><a href="#top">back to top</a></p>
