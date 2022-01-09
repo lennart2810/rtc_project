@@ -1,0 +1,34 @@
+# Sonar Costmap
+roslaunch rtc_project ps4_slam.launch map_name:=default controller_layout:=2 slam:=false
+roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+rosrun rtc sonar_to_costmap.py
+
+
+# Naviagtion Points
+roslaunch turtlebot3_gazebo turtlebot3_house.launch
+roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+rosrun rtc turtlebot3_move_base_action_client.py
+
+
+# to do
+
+slam, mit vollständigen pfad, unter dem karte gespeichert werden soll
+set_points, map_file angeben, und home....*default_map*_path.txt ausgeben.
+
+navigation und gazebo einzeln starten, pose estimation und dannach 
+action client, mit home....*default_map*_path.txt
+
+
+# AKTUELL:
+
+# slam
+roslaunch rtc_project ps4_slam.launch gazebo:=true controller_layout:=1 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map
+
+# points
+roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=true controller_layout:=1 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+
+
+
+# navigation
+roslaunch rtc_project navigation.launch gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/house_map_path.txt
