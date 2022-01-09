@@ -1,28 +1,26 @@
-# Sonar Costmap
-roslaunch rtc_project ps4_slam.launch map_name:=default controller_layout:=2 slam:=false
-roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
-rosrun rtc sonar_to_costmap.py
---> check
-
-# set navigation points
-/tf wird von zu vielen node gepublished, sodass pose nicht korrekt ausgelesen werden kann
---> robot state publisher abschießen !?
-$ ŕosnode kill /robot_state_publisher, wenn gazebo:=true 
---> check
-
-
-# to do
-slam verbessern:
+# TODO
+## slam verbessern:
 - auflösung der Pixel minimal 
 - aktualisierungsintervall schneller machen (öfter aktualisieren)
 - laser-scan: 10° nehmen, um abstand nach vorne zu messen
 - reduce_vel, deaktivieren, falls laser-scan nicht gut / konstant
 
-navigation:
+## navigation:
 - parameter tunen
 - sonar besser einbinden, um niedrige Hindernisse zu umfahren (local costmap)
-
-
+- sonar_to_costmap.py --> rtc_project
+- pub_points_2_file.py anpassen (path_file über argumente in launch file)
 
 # AKTUELLEN Code ausführen:
 https://github.com/lennart2810/rtc_project/blob/master/README.md
+
+
+# Änderungen in den originalen Turtlebot3 - Files:
+
+## slam
+
+## navigation:
+
+## costmap:
+- wie in rtc von Just vorgeben
+- openCR board, sonars eingfügt (Robotis und Just)
