@@ -57,26 +57,23 @@ da `/tf` sonst von zu vielen nodes gepublished wird!
    ```
 <br />
 
+## Sicherheitsfunktion, falls Marcel wieder nur am Rasen ist ;)
+<div align="center">
+  <a href="https://github.com/lennart2810/rtc_project/blob/master/scripts/ObjectWarnings.ipynb">
+    <img src="appendix/Sicherheitsfunktionen.png" alt="Images" width="500" height="420">
+  </a>
+</div>
+<br />
+
+
 ## Clone Repository
    ```sh
    git clone https://github.com/lennart2810/rtc_project.git
    ```
 
-
 ### Dependencies 
 * [turtlebot3](https://github.com/ROBOTIS-GIT/turtlebot3)
 * [ds4_driver](https://github.com/naoki-mizuno/ds4_driver)
-
-## Roadmap
-- :heavy_check_mark: ReadMe anlegen
-- :soon: avoid Obstacles
-
-<div align="center">
-  <a href="https://www.turtlebot.com/">
-    <img src="appendix/Sicherheitsfunktionen.png" alt="Images" width="500" height="420">
-  </a>
-</div>
-
 
 ## Credits
 * [ProfJust](https://github.com/ProfJust/rtc)
@@ -86,5 +83,7 @@ da `/tf` sonst von zu vielen nodes gepublished wird!
 
 ## Contact
 _Lennart Fuhrig_ - [GitHub](https://github.com/lennart2810) 
+_Marcel Heinen_
+_Jonas Klinker_
 
 <p align="right"><a href="#top">back to top</a></p>
