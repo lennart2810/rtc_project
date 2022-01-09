@@ -12,7 +12,6 @@
 * [ROS](http://wiki.ros.org/)
 * [Python](https://www.python.org)
 * [DualShock 4 Wireless-Controller](https://www.playstation.com/de-de/accessories/dualshock-4-wireless-controller/)
-* 
 
 ## Run Code (Gazebo)
 
