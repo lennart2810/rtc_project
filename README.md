@@ -14,13 +14,16 @@
 
 ## Run Code (Gazebo)
 
-### slam
+### Karte aufnehmen
+#### Simultaneous Localization and Mapping (SLAM)
    ```sh
-   roslaunch rtc_project ps4_slam.launch gazebo:=true controller_layout:=1 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map
+   roslaunch rtc_project ps4_slam.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map
    ```
-### set navigation points
+über die SHARE - Taste wird die Karte unter `map_file` mit `map_saver` gespeichert.
+
+### Navigationsziele anfahren
    ```sh
-   roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=true controller_layout:=1 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+   roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
    ```
    
 wenn `gazebo:=true`:
@@ -34,15 +37,16 @@ da `/tf` sonst von zu vielen nodes gepublished wird!
 -->
 
 
-### navigation action client
+### Navigation
+#### Advanced Monte Carlo Localization (AMCL)
    ```sh
    roslaunch rtc_project navigation.launch gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
    ```
-   
+#### Sonar-Point-Cloud in Costmap eintragen
    ```sh
    rosrun rtc sonar_to_costmap.py
    ```
-   
+#### Ziele mit Action-Server anfahren 
    ```sh
    rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/house_map_path.txt
    ```
