@@ -21,6 +21,7 @@
    ```
 
 ### Dependencies 
+* [turtlebot3](https://github.com/ROBOTIS-GIT/turtlebot3)
 * [ds4_driver](https://github.com/naoki-mizuno/ds4_driver)
 
 ## Roadmap
