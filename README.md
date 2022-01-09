@@ -28,7 +28,14 @@ wenn `gazebo:=true`:
    ```sh
    rosnode kill /robot_state_publisher
    ```
-da `/tf` sonst von zu vielen **nodes** gepublished wird!
+oder:
+   ```sh
+   roscd rtc_project/shell
+   . roskill_robot_state_publisher
+   ```
+
+da `/tf` sonst von zu vielen nodes gepublished wird!
+(muss per Hand ausgeführt werden, da es im launch-file zu früh ausgeführt wird und `/tf` dann nicht an rviz gepublished wird)
 
 ### navigation action client
    ```sh
