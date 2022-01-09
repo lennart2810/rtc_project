@@ -4,25 +4,25 @@ roslaunch turtlebot3_navigation turtlebot3_navigation.launch map_file:=/home/len
 rosrun rtc sonar_to_costmap.py
 --> check
 
-
-
-# to do
-
-slam verbessern:
-- auflösung der Pixel minimal 
-- aktualisierungsintervall schneller machen (öfter aktualisieren)
-
-laser-scan:
-- 10° nehmen, um abstand nach vorne zu messen
-
-
 # set navigation points
 /tf wird von zu vielen node gepublished, sodass pose nicht korrekt ausgelesen werden kann
 --> robot state publisher abschießen !?
-$ ŕosnode kill /robot_state_publisher 
+$ ŕosnode kill /robot_state_publisher, wenn gazebo:=true 
+--> check
+
+
+# to do
+slam verbessern:
+- auflösung der Pixel minimal 
+- aktualisierungsintervall schneller machen (öfter aktualisieren)
+- laser-scan: 10° nehmen, um abstand nach vorne zu messen
+- reduce_vel, deaktivieren, falls laser-scan nicht gut / konstant
+
+navigation:
+- parameter tunen
+- sonar besser einbinden, um niedrige Hindernisse zu umfahren
 
 
 
-# AKTUELL:
+# AKTUELLEN Code ausführen:
 https://github.com/lennart2810/rtc_project/blob/master/README.md
-Run Code
