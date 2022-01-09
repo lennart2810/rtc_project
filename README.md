@@ -11,6 +11,8 @@
 * [Turtlebot3 - Burger](https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/)
 * [ROS](http://wiki.ros.org/)
 * [Python](https://www.python.org)
+* [DualShock 4 Wireless-Controller](https://www.playstation.com/de-de/accessories/dualshock-4-wireless-controller/)
+* 
 
 ## Run Code (Gazebo)
 
