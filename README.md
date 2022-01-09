@@ -25,14 +25,18 @@
    ```
 ### navigation action client
    ```sh
-   git clone https://github.com/lennart2810/rtc_project.git
+   roslaunch rtc_project navigation.launch gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+   ```
+   
+   ```sh
+   rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/house_map_path.txt
    ```
 
 ## Clone Repository
-   ```sh
-   roslaunch rtc_project navigation.launch gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
-   rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/house_map_path.txt
+     ```sh
+   git clone https://github.com/lennart2810/rtc_project.git
    ```
+
 
 ### Dependencies 
 * [turtlebot3](https://github.com/ROBOTIS-GIT/turtlebot3)
