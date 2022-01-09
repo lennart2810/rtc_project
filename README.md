@@ -13,12 +13,30 @@
 * [ROS](http://wiki.ros.org/)
 * ...
 
+## Run Code (Gazebo)
 
+### slam
+   ```sh
+   roslaunch rtc_project ps4_slam.launch gazebo:=true controller_layout:=1 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map
+   ```
+### set navigation points
+   ```sh
+   roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=true controller_layout:=1 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+   ```
+### navigation action client
+   ```sh
+   roslaunch rtc_project navigation.launch gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+   ```
+   
+   ```sh
+   rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/house_map_path.txt
+   ```
 
 ## Clone Repository
    ```sh
    git clone https://github.com/lennart2810/rtc_project.git
    ```
+
 
 ### Dependencies 
 * [turtlebot3](https://github.com/ROBOTIS-GIT/turtlebot3)
