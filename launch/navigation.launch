@@ -1,29 +1,18 @@
 <?xml version="1.0"?>
 <launch>
   
-  <arg name="gazebo_sim" default="true"/>
+  <arg name="gazebo" default="true"/>
   <arg name="map_file" default="/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml"/>
 
-  <!-- Gazeboo; wird nur gestartet, wenn gazebo_sim == true -->
-  <group if="$(arg gazebo_sim)">
+  <!-- Gazeboo; wird nur gestartet, wenn gazebo == true -->
+  <group if="$(arg gazebo)">
     <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
   </group>
+
   
-  <!-- navigation starten -->
+  <!-- navigation OHNE goal starten -->
   <include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch" > 
     <arg name="map_file" value="$(arg map_file)" />
   </include>
 
-  <!-- goals über action server übergeben -->
-    <node pkg="rtc_project" 
-        type="turtlebot3_move_base_action_client.py" 
-        name="turtlebot3_move_base_action_client" 
-        output="screen"  >
-
-  </node>
-  
-
-
 </launch>
-
-  <!-- kein launch file, da zuerst position estimatet werden muss, bevor der action server starten kann-->

@@ -1,13 +1,16 @@
 <?xml version="1.0"?>
 <launch>
   
-  <arg name="gazebo_sim" default="true"/>
+  <arg name="gazebo" default="true"/>
   <arg name="controller_layout" default="1"/>
-  <arg name="map_name" default="default_map"/>
   <arg name="map_file" default="/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml"/>
+  
+  <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="open_rviz" default="true"/>
+  <arg name="move_forward_only" default="false"/>
 
-  <!-- Gazeboo; wird nur gestartet, wenn gazebo_sim == true -->
-  <group if="$(arg gazebo_sim)">
+  <!-- Gazeboo; wird nur gestartet, wenn gazebo == true -->
+  <group if="$(arg gazebo)">
     <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
   </group>
   
@@ -19,16 +22,24 @@
         type="ps4_set_navigation_points.py" 
         name="ps4_set_navigation_points" 
         output="screen" 
-        args="$(arg controller_layout) $(arg map_name)" >
+        args="$(arg controller_layout) $(arg map_file)" >
         <rosparam command="load" file="$(find rtc_project)/config/ps4_turtle_control.yaml" />
   </node>
   
-  <!-- navigation OHNE goal starten -->
-  <include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch" > 
-    <arg name="map_file" value="$(arg map_file)" />
+    <!-- move_base -->
+  <include file="$(find turtlebot3_navigation)/launch/move_base.launch">
+    <arg name="model" value="$(arg model)" />
+    <arg name="move_forward_only" value="$(arg move_forward_only)"/>
   </include>
+  
 
-  <!-- <include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch" /> -->
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
+
+  <!-- rviz -->
+
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
   
 
 

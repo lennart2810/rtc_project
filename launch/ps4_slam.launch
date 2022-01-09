@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <launch>
   
-  <arg name="gazebo_sim" default="true"/>
+  <arg name="gazebo" default="true"/>
   <arg name="controller_layout" default="1"/>
-  <arg name="map_name" default="default_map"/>
+  <arg name="map_file" default="/home/lennart/catkin_ws/src/rtc_project/maps/default_map"/>
 
-  <!-- Gazeboo; wird nur gestartet, wenn gazebo_sim == true -->
-  <group if="$(arg gazebo_sim)">
+  <!-- Gazeboo; wird nur gestartet, wenn gazebo == true -->
+  <group if="$(arg gazebo)">
     <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
   </group>
   
@@ -18,7 +18,7 @@
         type="ps4_slam.py" 
         name="ps4_slam" 
         output="screen" 
-        args="$(arg controller_layout) $(arg map_name)" >
+        args="$(arg controller_layout) $(arg map_file)" >
         <rosparam command="load" file="$(find rtc_project)/config/ps4_turtle_control.yaml" />
   </node>
   

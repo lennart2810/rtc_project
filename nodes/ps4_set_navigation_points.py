@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-# -- ps4_turtle_control.py --
-# Version vom 30.11.2021 by LF
+# -- ps4_set_navigation_points.py --
+# Version vom 29.12.2021 by LF
 # ----------------------------
 
 
@@ -14,19 +14,21 @@ from ds4_driver.msg import Status, Feedback
 from sensor_msgs.msg import LaserScan
 from math import isnan  # is not a number
 from geometry_msgs.msg import Pose
-from geometry_msgs.msg import TransformStamped
+#from geometry_msgs.msg import TransformStamped
 from tf2_msgs.msg import TFMessage
 
 #tf2_msgs/TFMessage
 
 
 class StatusToTurtleTwist(object):
-    def __init__(self, filename, controller_layout, map_name):
+    def __init__(self, filename, controller_layout, map_file):
 
         # 'relative' Pfade zu shell scipten
-        self.map_saver = filename.replace('nodes/ps4_set_navigation_points.py', 'shell/map_saver.sh')
-        self.map_file = filename.replace('nodes/ps4_set_navigation_points.py', 'maps/' + map_name)
-        self.map_path = filename.replace('nodes/ps4_set_navigation_points.py', 'maps/' + map_name + '_path.txt')
+        #self.map_saver = filename.replace('nodes/ps4_set_navigation_points.py', 'shell/map_saver.sh')
+        self.map_path = map_file.replace('.yaml', '_path.txt')
+        rospy.loginfo(self.map_path)
+        #self.map_file = map_file
+        #self.map_path = map_file + '_path.txt'
 
         self.map_saved = False
 
@@ -76,9 +78,6 @@ class StatusToTurtleTwist(object):
         rospy.Subscriber('tf', TFMessage, self.cb_get_pose)
         self.pose = Pose()
 
-        
-
-
         # /debug
         # self.pub_debug = rospy.Publisher('debug', Float64, queue_size=1)
 
@@ -92,9 +91,6 @@ class StatusToTurtleTwist(object):
         self.pose.orientation.z = tf.transforms[0].transform.rotation.z
         self.pose.orientation.w = tf.transforms[0].transform.rotation.w
 
-
-
-
     def set_navigation_points(self):
 
         fobj = open(self.map_path, 'a')
@@ -107,7 +103,6 @@ class StatusToTurtleTwist(object):
                     + "] \n"
         fobj.write(write_str)
         fobj.close()
-
 
     def __init__controller_layout(self, layout):
 
@@ -314,10 +309,10 @@ class StatusToTurtleTwist(object):
         self.pub_feedback.publish(self.feedback)
 
 
-def main(filename, layout, map_name):
+def main(filename, layout, map_file):
     rospy.init_node('ps4_turtle_control')
 
-    StatusToTurtleTwist(filename, layout, map_name)
+    StatusToTurtleTwist(filename, layout, map_file)
 
     rospy.spin()
 
@@ -327,9 +322,9 @@ if __name__ == '__main__':
     # Argumente aus ps4_turtle_control.launch
     filename = sys.argv[0]
     layout = sys.argv[1]
-    map_name = sys.argv[2]
+    map_file = sys.argv[2]
 
     try:
-        main(filename, layout, map_name)
+        main(filename, layout, map_file)
     except rospy.ROSInterruptException:
         rospy.loginfo(" Error ")

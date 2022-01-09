@@ -21,10 +21,12 @@ import actionlib  # Brings in the SimpleActionClient
 # Brings in the .action file and messages used by the move base action
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 
+#import argparse
+
 # Initial Koordinaten für Ort x,y und Orientierung x,y,z,w
 path = [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]
 # Vollstaendiger Pfad der Datei
-filename = "/home/lennart/catkin_ws/src/rtc_project/maps/default_map_path.txt"
+#filename = "/home/lennart/catkin_ws/src/rtc_project/maps/default_map_path.txt"
 
 
 def read_path_from_file(filename):
@@ -46,7 +48,7 @@ def movebase_client():
     # Waits until the action server has started up
     # and is listening for goals.
     client.wait_for_server()
-    read_path_from_file(path_file)  # Hole Pfad aus Datei
+    read_path_from_file(map_path)  # Hole Pfad aus Datei
     # Creates a new goal with the MoveBaseGoal constructor
     goal = MoveBaseGoal()
     goal.target_pose.header.frame_id = "map"
@@ -79,10 +81,10 @@ def movebase_client():
 # If the python node is executed as main process (sourced directly)
 if __name__ == '__main__':
 
-    filename = sys.argv[0]
-    path_name = sys.argv[1]
-    path_file = filename.replace('nodes/turtlebot3_move_base_action_client.py', 'maps/' + path_name + '_path.txt')
-    print(path_file)
+    #filename = sys.argv[0]
+    map_path = sys.argv[1]
+    #path_file = filename.replace('nodes/turtlebot3_move_base_action_client.py', 'maps/' + path_name + '_path.txt')
+    print(map_path)
 
     try:
         # let the SimpleActionClient publish and subscribe

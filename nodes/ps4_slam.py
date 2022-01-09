@@ -16,11 +16,11 @@ from math import isnan  # is not a number
 
 
 class StatusToTurtleTwist(object):
-    def __init__(self, filename, controller_layout, map_name):
+    def __init__(self, filename, controller_layout, map_file):
 
         # 'relative' Pfade zu shell scipten
         self.map_saver = filename.replace('nodes/ps4_slam.py', 'shell/map_saver.sh')
-        self.map_file = filename.replace('nodes/ps4_slam.py', 'maps/' + map_name)
+        self.map_file = map_file
 
         self.map_saved = False
 
@@ -272,10 +272,10 @@ class StatusToTurtleTwist(object):
         self.pub_feedback.publish(self.feedback)
 
 
-def main(filename, layout, map_name):
+def main(filename, layout, map_file):
     rospy.init_node('ps4_slam')
 
-    StatusToTurtleTwist(filename, layout, map_name)
+    StatusToTurtleTwist(filename, layout, map_file)
 
     rospy.spin()
 
@@ -285,9 +285,9 @@ if __name__ == '__main__':
     # Argumente aus ps4_turtle_control.launch
     filename = sys.argv[0]
     layout = sys.argv[1]
-    map_name = sys.argv[2]
+    map_file = sys.argv[2]
 
     try:
-        main(filename, layout, map_name)
+        main(filename, layout, map_file)
     except rospy.ROSInterruptException:
         rospy.loginfo(" Error ")
