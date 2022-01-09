@@ -24,10 +24,11 @@
 * `controller_layout:=2` sorgt dafür, dass der Turtlebot mit den beiden Joysticks gesteuert wird.
 * die SHARE - Taste führt den [`map_saver`](http://wiki.ros.org/map_server) aus, sodass die Karte unter `map_file` gespeichert wird.
 
-### Navigationsziele anfahren
+### Navigationsziele setzen
    ```sh
-   roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+   roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project  /maps/house_map.yaml
    ```
+* mit derSHARE - Taste wird die aktuelle Position und Orientierung des Turtlebots in eine **.txt** gespeichert.  
    
 wenn `gazebo:=true`:
    ```sh
