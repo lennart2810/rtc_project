@@ -23,6 +23,7 @@
 * für das Arbeiten mit dem realen Turtlebot muss `gazebo:=false` sein.
 * `controller_layout:=2` sorgt dafür, dass der Turtlebot mit den beiden Joysticks gesteuert wird.
 * die SHARE - Taste führt den [`map_saver`](http://wiki.ros.org/map_server) aus, sodass die Karte unter `map_file` gespeichert wird.
+<br />
 
 ### Navigationsziele setzen (Steuerung mit Controller)
    ```sh
