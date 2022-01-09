@@ -35,7 +35,7 @@ oder:
    ```
 
 da `/tf` sonst von zu vielen nodes gepublished wird!
-(muss per Hand ausgeführt werden, da es im launch-file zu früh ausgeführt wird und `/tf` dann nicht an rviz gepublished wird)
+(muss per Hand ausgeführt werden, da es im launch-file zu früh ausgeführt wird und die Pose dann nicht an rviz gepublished wird)
 
 ### navigation action client
    ```sh
