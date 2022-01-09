@@ -9,7 +9,7 @@
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
 
-  <!-- Gazeboo; wird nur gestartet, wenn gazebo == true -->
+  <!-- Gazebo; wird nur gestartet, wenn gazebo == true -->
   <group if="$(arg gazebo)">
     <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
   </group>
@@ -17,7 +17,8 @@
   <!-- ds4_driver starten -->
   <include file="$(find ds4_driver)/launch/ds4_driver.launch" /> 
 
-  <!-- ps4_turtle_control starten -->
+  <!-- ps4_set_navigation_points starten -->
+  <!-- SHARE-Taste = pose in file speichern -->
   <node pkg="rtc_project" 
         type="ps4_set_navigation_points.py" 
         name="ps4_set_navigation_points" 
@@ -26,21 +27,19 @@
         <rosparam command="load" file="$(find rtc_project)/config/ps4_turtle_control.yaml" />
   </node>
   
-    <!-- move_base -->
+  <!-- hier ganz normal turtlebot_navigation starten, ohne goal an amcl zu übergeben!!! -->
+
+  <!-- move_base -->
   <include file="$(find turtlebot3_navigation)/launch/move_base.launch">
     <arg name="model" value="$(arg model)" />
     <arg name="move_forward_only" value="$(arg move_forward_only)"/>
   </include>
   
-
-  <!-- Map server -->
+  <!-- map server -->
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
 
   <!-- rviz -->
-
     <node pkg="rviz" type="rviz" name="rviz" required="true"
           args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
   
-
-
 </launch>

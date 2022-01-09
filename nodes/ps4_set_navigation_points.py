@@ -25,6 +25,9 @@ class StatusToTurtleTwist(object):
 
         # 'relative' Pfade zu shell scipten
         #self.map_saver = filename.replace('nodes/ps4_set_navigation_points.py', 'shell/map_saver.sh')
+
+        # map_file wird vom turtlebot3_navigation benötigt
+        # hier wird aber das file, in welches posen gespeichert werden sollen gebraucht!
         self.map_path = map_file.replace('.yaml', '_path.txt')
         rospy.loginfo(self.map_path)
         #self.map_file = map_file
@@ -81,29 +84,6 @@ class StatusToTurtleTwist(object):
         # /debug
         # self.pub_debug = rospy.Publisher('debug', Float64, queue_size=1)
 
-    def cb_get_pose(self, tf):
-
-        self.pose.position.x = tf.transforms[0].transform.translation.x
-        self.pose.position.y = tf.transforms[0].transform.translation.y
-
-        self.pose.orientation.x = tf.transforms[0].transform.rotation.x
-        self.pose.orientation.y = tf.transforms[0].transform.rotation.y
-        self.pose.orientation.z = tf.transforms[0].transform.rotation.z
-        self.pose.orientation.w = tf.transforms[0].transform.rotation.w
-
-    def set_navigation_points(self):
-
-        fobj = open(self.map_path, 'a')
-        write_str = "[" + str(self.pose.position.x) + ","\
-                    + str(self.pose.position.y) + ","\
-                    + str(self.pose.orientation.x) + ","\
-                    + str(self.pose.orientation.y) + ","\
-                    + str(self.pose.orientation.z) + ","\
-                    + str(self.pose.orientation.w) \
-                    + "] \n"
-        fobj.write(write_str)
-        fobj.close()
-
     def __init__controller_layout(self, layout):
 
         # gewähltes Layout ermitteln
@@ -153,6 +133,29 @@ class StatusToTurtleTwist(object):
         # green(x) = (1-0)/(max-min) * (x-min) + 0
         self.green_func = lambda x: \
             max(min(1, round(1/(max_dist-min_dist)*(x-min_dist)+0, 2)), 0)
+
+    def cb_get_pose(self, tf):
+
+        self.pose.position.x = tf.transforms[0].transform.translation.x
+        self.pose.position.y = tf.transforms[0].transform.translation.y
+
+        self.pose.orientation.x = tf.transforms[0].transform.rotation.x
+        self.pose.orientation.y = tf.transforms[0].transform.rotation.y
+        self.pose.orientation.z = tf.transforms[0].transform.rotation.z
+        self.pose.orientation.w = tf.transforms[0].transform.rotation.w
+
+    def set_navigation_points(self):
+
+        fobj = open(self.map_path, 'a')
+        write_str = "[" + str(self.pose.position.x) + ","\
+                    + str(self.pose.position.y) + ","\
+                    + str(self.pose.orientation.x) + ","\
+                    + str(self.pose.orientation.y) + ","\
+                    + str(self.pose.orientation.z) + ","\
+                    + str(self.pose.orientation.w) \
+                    + "] \n"
+        fobj.write(write_str)
+        fobj.close()
 
     def cb_status(self, msg):
 

@@ -5,7 +5,7 @@
   <arg name="controller_layout" default="1"/>
   <arg name="map_file" default="/home/lennart/catkin_ws/src/rtc_project/maps/default_map"/>
 
-  <!-- Gazeboo; wird nur gestartet, wenn gazebo == true -->
+  <!-- Gazebo; wird nur gestartet, wenn gazebo == true -->
   <group if="$(arg gazebo)">
     <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
   </group>
@@ -22,8 +22,7 @@
         <rosparam command="load" file="$(find rtc_project)/config/ps4_turtle_control.yaml" />
   </node>
   
-
+  <!-- slam -->
   <include file="$(find turtlebot3_slam)/launch/turtlebot3_slam.launch" />
-
 
 </launch>
