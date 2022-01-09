@@ -20,7 +20,7 @@ slam verbessern:
 
 navigation:
 - parameter tunen
-- sonar besser einbinden, um niedrige Hindernisse zu umfahren
+- sonar besser einbinden, um niedrige Hindernisse zu umfahren (local costmap)
 
 
 
