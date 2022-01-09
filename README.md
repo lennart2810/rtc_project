@@ -24,7 +24,7 @@
 * `controller_layout:=2` sorgt dafür, dass der Turtlebot mit den beiden Joysticks gesteuert wird.
 * die SHARE - Taste führt den [`map_saver`](http://wiki.ros.org/map_server) aus, sodass die Karte unter `map_file` gespeichert wird.
 
-### Navigationsziele setzen
+### Navigationsziele setzen (Steuerung mit Controller)
    ```sh
    roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project  /maps/house_map.yaml
    ```
@@ -36,9 +36,8 @@ wenn `gazebo:=true`:
    ```
 da `/tf` sonst von zu vielen nodes gepublished wird!
 
-<!-- 
-(muss per Hand ausgeführt werden, da es im launch-file zu früh ausgeführt wird und die Pose dann nicht an rviz gepublished wird)
--->
+### Navigationsziele setzen (Punkte in RViz setzen)
+...
 
 
 ### Navigation
