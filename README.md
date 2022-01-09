@@ -15,7 +15,7 @@
 
 ## Run Code (Gazebo)
 
-### Karte aufnehmen (Steuerung mit DualShock 4 Wireless-Controller von Sony)
+### Karte aufnehmen (Steuerung mit DualShock 4 Wireless-Controller)
 #### Simultaneous Localization and Mapping (SLAM)
    ```sh
    roslaunch rtc_project ps4_slam.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map
