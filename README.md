@@ -9,9 +9,8 @@
 
 ### Built With
 * [Turtlebot3 - Burger](https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/)
-* [Python](https://www.python.org)
 * [ROS](http://wiki.ros.org/)
-* ...
+* [Python](https://www.python.org)
 
 ## Run Code (Gazebo)
 
@@ -68,7 +67,10 @@ da `/tf` sonst von zu vielen nodes gepublished wird!
 
 
 ## Credits
-* RTC - [ProfJust](https://github.com/ProfJust/rtc)
+* [ProfJust](https://github.com/ProfJust/rtc)
+* [ROBOTIS](https://github.com/ROBOTIS-GIT/turtlebot3)
+*  Navigation Tuning
+* [naoki-mizuno](https://github.com/naoki-mizuno/ds4_driver)
 
 ## Contact
 _Lennart Fuhrig_ - [GitHub](https://github.com/lennart2810) 
