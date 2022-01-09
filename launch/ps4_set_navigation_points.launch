@@ -26,20 +26,18 @@
         args="$(arg controller_layout) $(arg map_file)" >
         <rosparam command="load" file="$(find rtc_project)/config/ps4_turtle_control.yaml" />
   </node>
-  
-  <!-- hier ganz normal turtlebot_navigation starten, ohne goal an amcl zu übergeben!!! -->
 
-  <!-- move_base -->
-  <include file="$(find turtlebot3_navigation)/launch/move_base.launch">
-    <arg name="model" value="$(arg model)" />
-    <arg name="move_forward_only" value="$(arg move_forward_only)"/>
+  <!-- navigation OHNE goal starten -->
+  <include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch" > 
+    <arg name="map_file" value="$(arg map_file)" />
   </include>
   
-  <!-- map server -->
-  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
+  <!-- 
+  <group if="$(arg gazebo)">
+    <node pkg="rtc_project" type="roskill_robot_state_publisher.sh" name="roskill_robot_state_publisher">
+      <param name="cmd" value="/home/lennart/catkin_ws/src/rtc_project/shell/roskill_robot_state_publisher.sh"/>
+    </node>
+  </group>
+  -->
 
-  <!-- rviz -->
-    <node pkg="rviz" type="rviz" name="rviz" required="true"
-          args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
-  
 </launch>

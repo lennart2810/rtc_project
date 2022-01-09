@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # -- ps4_set_navigation_points.py --
-# Version vom 29.12.2021 by LF
+# Version vom 09.01.2022 by LF
 # ----------------------------
 
 

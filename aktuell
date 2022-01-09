@@ -12,6 +12,15 @@ slam verbessern:
 - auflösung der Pixel minimal 
 - aktualisierungsintervall schneller machen (öfter aktualisieren)
 
+laser-scan:
+- 10° nehmen, um abstand nach vorne zu messen
+
+
+# set navigation points
+/tf wird von zu vielen node gepublished, sodass pose nicht korrekt ausgelesen werden kann
+--> robot state publisher abschießen !?
+$ ŕosnode kill /robot_state_publisher 
+
 
 
 # AKTUELL:
