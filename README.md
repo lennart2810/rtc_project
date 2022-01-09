@@ -23,8 +23,8 @@
 * für das Arbeiten mit dem realen Turtlebot muss `gazebo:=false` sein.
 * `controller_layout:=2` sorgt dafür, dass der Turtlebot mit den beiden Joysticks gesteuert wird.
 * die SHARE - Taste führt den [`map_saver`](http://wiki.ros.org/map_server) aus, sodass die Karte unter `map_file` gespeichert wird.
-<br />
 
+<br />
 ### Navigationsziele setzen (Steuerung mit Controller)
    ```sh
    roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project  /maps/house_map.yaml
@@ -40,7 +40,7 @@ da `/tf` sonst von zu vielen nodes gepublished wird!
 ### Navigationsziele setzen (Punkte in RViz setzen)
 ...
 
-
+<br />
 ### Navigation
 #### Advanced Monte Carlo Localization (AMCL)
    ```sh
@@ -54,7 +54,7 @@ da `/tf` sonst von zu vielen nodes gepublished wird!
    ```sh
    rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/house_map_path.txt
    ```
-
+<br />
 ## Clone Repository
    ```sh
    git clone https://github.com/lennart2810/rtc_project.git
