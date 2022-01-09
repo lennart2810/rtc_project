@@ -11,64 +11,69 @@
 * [Turtlebot3 - Burger](https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/)
 * [ROS](http://wiki.ros.org/)
 * [Python](https://www.python.org)
+* [DualShock 4 Wireless-Controller](https://www.playstation.com/de-de/accessories/dualshock-4-wireless-controller/)
+<br />
 
 ## Run Code (Gazebo)
 
-### slam
+### Karte aufnehmen (Steuerung mit DualShock 4 Wireless-Controller)
+#### Simultaneous Localization and Mapping (SLAM)
    ```sh
-   roslaunch rtc_project ps4_slam.launch gazebo:=true controller_layout:=1 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map
+   roslaunch rtc_project ps4_slam.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map
    ```
-### set navigation points
+* für das Arbeiten mit dem realen Turtlebot muss `gazebo:=false` sein.
+* `controller_layout:=2` sorgt dafür, dass der Turtlebot mit den beiden Joysticks gesteuert wird.
+* die SHARE - Taste führt den [`map_saver`](http://wiki.ros.org/map_server) aus, sodass die Karte unter `map_file` gespeichert wird.
+<br />
+
+### Navigationsziele setzen (Steuerung mit Controller)
    ```sh
-   roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=true controller_layout:=1 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+   roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project  /maps/house_map.yaml
    ```
+* mit derSHARE - Taste wird die aktuelle Position und Orientierung des Turtlebots in eine **.txt** gespeichert.  
    
 wenn `gazebo:=true`:
    ```sh
    rosnode kill /robot_state_publisher
    ```
-oder:
-   ```sh
-   roscd rtc_project/shell
-   . roskill_robot_state_publisher.sh
-   ```
-
 da `/tf` sonst von zu vielen nodes gepublished wird!
-(muss per Hand ausgeführt werden, da es im launch-file zu früh ausgeführt wird und die Pose dann nicht an rviz gepublished wird)
 
-### navigation action client
+### Navigationsziele setzen (Punkte in RViz setzen)
+...
+<br />
+
+### Navigation
+#### Advanced Monte Carlo Localization (AMCL)
    ```sh
    roslaunch rtc_project navigation.launch gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
    ```
-   
-      ```sh
+#### Sonar-Point-Cloud in Costmap eintragen
+   ```sh
    rosrun rtc sonar_to_costmap.py
    ```
-   
+#### Ziele mit Action-Server anfahren 
    ```sh
    rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/house_map_path.txt
    ```
+<br />
+
+## Sicherheitsfunktion, falls Marcel wieder nur am Rasen ist ;)
+<div align="center">
+  <a href="https://github.com/lennart2810/rtc_project/blob/master/scripts/ObjectWarnings.ipynb">
+    <img src="appendix/Sicherheitsfunktionen.png" alt="Images" width="500" height="420">
+  </a>
+</div>
+<br />
+
 
 ## Clone Repository
    ```sh
    git clone https://github.com/lennart2810/rtc_project.git
    ```
 
-
 ### Dependencies 
 * [turtlebot3](https://github.com/ROBOTIS-GIT/turtlebot3)
 * [ds4_driver](https://github.com/naoki-mizuno/ds4_driver)
-
-## Roadmap
-- :heavy_check_mark: ReadMe anlegen
-- :soon: avoid Obstacles
-
-<div align="center">
-  <a href="https://www.turtlebot.com/">
-    <img src="appendix/Sicherheitsfunktionen.png" alt="Images" width="500" height="420">
-  </a>
-</div>
-
 
 ## Credits
 * [ProfJust](https://github.com/ProfJust/rtc)
@@ -77,6 +82,8 @@ da `/tf` sonst von zu vielen nodes gepublished wird!
 * [naoki-mizuno](https://github.com/naoki-mizuno/ds4_driver)
 
 ## Contact
-_Lennart Fuhrig_ - [GitHub](https://github.com/lennart2810) 
+* _Lennart Fuhrig_ - [GitHub](https://github.com/lennart2810) 
+* _Marcel Heinen_
+* _Jonas Klinker_
 
 <p align="right"><a href="#top">back to top</a></p>
