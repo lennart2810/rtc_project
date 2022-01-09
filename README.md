@@ -31,7 +31,7 @@ wenn `gazebo:=true`:
 oder:
    ```sh
    roscd rtc_project/shell
-   . roskill_robot_state_publisher
+   . roskill_robot_state_publisher.sh
    ```
 
 da `/tf` sonst von zu vielen nodes gepublished wird!
