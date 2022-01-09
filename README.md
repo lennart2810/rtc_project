@@ -19,7 +19,7 @@
    ```sh
    roslaunch rtc_project ps4_slam.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map
    ```
-über die SHARE - Taste wird die Karte unter `map_file` mit [`map_saver`](http://wiki.ros.org/map_server) gespeichert.
+die SHARE - Taste führt den [`map_saver`](http://wiki.ros.org/map_server) aus, sodass die Karte unter `map_file` gespeichert wird.
 
 ### Navigationsziele anfahren
    ```sh
