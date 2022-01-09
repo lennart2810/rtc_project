@@ -41,7 +41,7 @@ da `/tf` sonst von zu vielen nodes gepublished wird!
    roslaunch rtc_project navigation.launch gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
    ```
    
-      ```sh
+   ```sh
    rosrun rtc sonar_to_costmap.py
    ```
    
