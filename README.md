@@ -31,7 +31,6 @@
    ```sh
    rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/house_map_path.txt
    ```
-   <br>
 
 ## Clone Repository
      ```sh
