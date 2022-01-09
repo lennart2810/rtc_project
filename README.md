@@ -23,6 +23,13 @@
    ```sh
    roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=true controller_layout:=1 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
    ```
+   
+wenn `gazebo:=true`:
+   ```sh
+   rosnode kill /robot_state_publisher
+   ```
+da `/tf` sonst von zu vielen **nodes** gepublished wird!
+
 ### navigation action client
    ```sh
    roslaunch rtc_project navigation.launch gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
