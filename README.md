@@ -28,7 +28,7 @@
 
 ### Navigationsziele setzen (Steuerung mit Controller)
    ```sh
-   roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project  /maps/house_map.yaml
+   roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
    ```
 * mit derSHARE - Taste wird die aktuelle Position und Orientierung des Turtlebots in eine **.txt** gespeichert.  
    
