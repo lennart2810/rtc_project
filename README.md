@@ -32,10 +32,10 @@
    ```
 #### RViz
 * mit `points_via_robot:=false` werden die Ziele über den *2D Nav Goal* - Pfeil gesetzt.
-* unter *Tool Properties* muss das Topic daür **move_base_simple/set_goal** eingestell werden.
+* unter *Tool Properties* muss dafür das Topic **move_base_simple/set_goal** eingestell werden.
 #### Turtlebot
 * mit `points_via_robot:=true` können die Navigationsziele mit dem Turtlebot *angefahren* werden.
-* mit derSHARE - Taste wird die aktuelle Position und Orientierung des Turtlebots in eine **.txt** gespeichert.  
+* mit der SHARE - Taste wird die aktuelle Position und Orientierung des Turtlebots in eine **.txt** gespeichert. [publish_pose_2_file](https://github.com/ProfJust/rtc/blob/master/nodes/ue07_navigation_amcl/publish_pose_2_file.py)
 <br />
 
 ### Navigation
@@ -47,6 +47,7 @@
    ```sh
    rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/default_map_path.txt
    ```
+* mit [turtlebot3_move_base_action_client](https://github.com/ProfJust/rtc/blob/master/nodes/ue07_navigation_amcl/turtlebot3_move_base_action_client.py) werden alle gesetzen Navigationsziele nacheinander angefahren.
 <br />
 
 ## Sicherheitsfunktion, falls Marcel wieder nur am Rasen ist ;)
