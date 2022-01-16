@@ -15,11 +15,10 @@ path = [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]
 
 def read_path_from_file(filename):
     rospy.loginfo("Reading Path from path.txt : ")
-    # Den vorgegebenen Pfad einlesen, jede Zeile ein Goal
     with open(filename, 'r') as fin:
         for line in fin:
-            path.append(eval(line))  # Goal anhaengen
-    del path[0]  # [0, 0] entfernen
+            path.append(eval(line)) 
+    del path[0]
     rospy.loginfo(str(path))
 
 

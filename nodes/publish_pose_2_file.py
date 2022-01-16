@@ -31,7 +31,7 @@ if __name__ == '__main__':
         rospy.init_node('goal_listener', anonymous=True)
         rospy.loginfo("Auf der RVIZ- Karte ein 2D Nav Goal ankllicken,\
                       /move_base_simple/set_goal")
-        click_sub = rospy.Subscriber('/move_base_simple/goal2',
+        click_sub = rospy.Subscriber('/move_base_simple/set_goal',
                                      PoseStamped,
                                      clickCB)
         rate = rospy.Rate(2)
