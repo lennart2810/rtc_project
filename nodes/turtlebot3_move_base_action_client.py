@@ -1,32 +1,16 @@
 #!/usr/bin/env python3
-# ################################################################################
-# edited WHS, OJ , 12.12.2020 #
-# usage
-#    $1 roslaunch turtlebot3_gazebo turtlebot3_house.launch
-#    $2 roslaunch turtlebot3_navigation turtlebot3_navigation.launch /
-#         map_file:=$HOME/catkin_ws/src/rtc/rtc_maps/gazebo_house_map_2020_12_07
-#    $3 rosrun rtc turtlebot3_move_base_action_client.py  (this file here)
-#       the Server is already started with move_base
+
 # based on the code from
 # https://hotblackrobotics.github.io/en/blog/2018/01/29/action-client-py/
-
-# den RVIZ-Tool Pfeil Navigation Goal nutzen um die
-# Posen in den Pfad zu schreiben
-# über Tool Properties anderes Topic einstellen
-# mit publish_pose_2_file.py
+# edited WHS, OJ , 12.12.2020
 
 import rospy
 import sys
-import actionlib  # Brings in the SimpleActionClient
-# Brings in the .action file and messages used by the move base action
+import actionlib
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
-
-#import argparse
 
 # Initial Koordinaten für Ort x,y und Orientierung x,y,z,w
 path = [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]
-# Vollstaendiger Pfad der Datei
-#filename = "/home/lennart/catkin_ws/src/rtc_project/maps/default_map_path.txt"
 
 
 def read_path_from_file(filename):
@@ -40,16 +24,11 @@ def read_path_from_file(filename):
 
 
 def movebase_client():
-    # Create an action client called "move_base" /
-    # with action definition file "MoveBaseAction"
-    # /opt/ros/noetic/include/move_base_msgs
     client = actionlib.SimpleActionClient('move_base', MoveBaseAction)
 
-    # Waits until the action server has started up
-    # and is listening for goals.
     client.wait_for_server()
-    read_path_from_file(map_path)  # Hole Pfad aus Datei
-    # Creates a new goal with the MoveBaseGoal constructor
+    read_path_from_file(map_path)
+
     goal = MoveBaseGoal()
     goal.target_pose.header.frame_id = "map"
     goal.target_pose.header.stamp = rospy.Time.now()
@@ -78,13 +57,9 @@ def movebase_client():
     return client.get_result()
 
 
-# If the python node is executed as main process (sourced directly)
 if __name__ == '__main__':
 
-    #filename = sys.argv[0]
     map_path = sys.argv[1]
-    #path_file = filename.replace('nodes/turtlebot3_move_base_action_client.py', 'maps/' + path_name + '_path.txt')
-    print(map_path)
 
     try:
         # let the SimpleActionClient publish and subscribe

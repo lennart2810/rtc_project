@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<launch>
+  
+  <arg name="gazebo" default="true"/>
+  <arg name="controller_layout" default="1"/>
+  <arg name="points_via_robot" default="false"/>
+  <arg name="map_file" default="/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml"/>
+
+  <!-- Gazebo; wird nur gestartet, wenn gazebo == true -->
+  <group if="$(arg gazebo)">
+    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
+  </group>
+  
+  <!-- navigation OHNE goal starten -->
+  <include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch" > 
+    <arg name="map_file" value="$(arg map_file)" />
+  </include>
+  
+  <!-- PointCloud to Costmap -->
+  <node pkg="rtc_project" 
+        type="sonar_to_costmap.py" 
+        name="sonar_to_costmap" 
+        output="screen" >
+  </node>
+  
+  <!-- Goals mit Turtlebot setzen -->
+  <group if="$(eval arg ('points_via_robot') == true)">
+  	<!-- ds4_driver -->
+  	<include file="$(find ds4_driver)/launch/ds4_driver.launch" /> 
+
+  	<!-- set_navigation_points-->
+  	<node pkg="rtc_project" 
+        	type="set_navigation_points.py" 
+        	name="set_navigation_points" 
+        	output="screen" 
+        	args="$(arg controller_layout) $(arg map_file)" >
+        	<rosparam command="load" file="$(find rtc_project)/config/ps4_turtle_control.yaml" />
+  	</node>
+  </group>
+  
+  <!-- Goals mit Rviz setzen -->
+  <group if="$(eval arg ('points_via_robot') == false)">
+  	<node pkg="rtc_project" 
+        	type="publish_pose_2_file.py" 
+        	name="publish_pose_2_file" 
+        	output="screen" 
+        	args="$(arg map_file)" >
+  	</node>
+  </group>
+  
+</launch>

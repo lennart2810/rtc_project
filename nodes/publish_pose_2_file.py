@@ -1,21 +1,16 @@
 #!/usr/bin/env python3
-# publish_point_2_file.py
-# ################################################################################
-# edited WHS, OJ , 3.12.2020 #
-# usage
-#   $1 roslaunch rtc turtlebot3_action_server_client_path_gazebo_house.launch
-#   $2 rosrun rtc publish_pose_2_file.py
-#   click at point at RViz-Map  => save in  File
+# original: WHS, OJ , 3.12.2020
 
+import sys
 import rospy
 from geometry_msgs.msg import PoseStamped
-filename = "/home/lennart/catkin_ws/src/rtc/nodes/ue07_navigation_amcl/path.txt"
+filename = "/home/lennart/catkin_ws/src/rtc_project/maps/test_path.txt"
 
 
 def clickCB(data):
     rospy.loginfo("clicked at " + str(data.pose.position.x)
                   + " " + str(data.pose.position.y))
-    fobj = open(filename, 'a')
+    fobj = open(map_path, 'a')
     write_str = "[" + str(data.pose.position.x) + ","\
                     + str(data.pose.position.y) + ","\
                     + str(data.pose.orientation.x) + ","\
@@ -28,14 +23,20 @@ def clickCB(data):
 
 
 if __name__ == '__main__':
+
+    filename = sys.argv[0]
+    map_file = sys.argv[1]
+
+    map_path = map_file.replace('.yaml', '_path.txt')
+
     try:
         rospy.init_node('goal_listener', anonymous=True)
         rospy.loginfo("Auf der RVIZ- Karte ein 2D Nav Goal ankllicken,\
-                      /move_base_simple/goal2")
+                      /move_base_simple/set_goal")
         click_sub = rospy.Subscriber('/move_base_simple/goal2',
                                      PoseStamped,
                                      clickCB)
-        rate = rospy.Rate(10)
+        rate = rospy.Rate(2)
 
         while not rospy.is_shutdown():
             pass

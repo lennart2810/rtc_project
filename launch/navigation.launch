@@ -8,8 +8,13 @@
   <group if="$(arg gazebo)">
     <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
   </group>
+  
+  <node pkg="rtc_project" 
+        type="sonar_to_costmap.py" 
+        name="sonar_to_costmap" 
+        output="screen" >
+  </node>
 
-  <!-- navigation OHNE goal starten -->
   <!-- goals werden druch action-server an amcl übergeben -->
   <include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch" > 
     <arg name="map_file" value="$(arg map_file)" />

@@ -185,8 +185,8 @@ class StatusToTurtleTwist(object):
         self.vel_msg = vel_to_pub
 
         # Kollisionen verhindern, wenn Turtle nach vorne fährt
-        if self.vel_msg.linear.x > 0:
-            self.vel_msg.linear.x *= self.reduce_vel()
+        # if self.vel_msg.linear.x > 0:
+        #    self.vel_msg.linear.x *= self.reduce_vel()
 
         if self.pub_vel_flag:
 

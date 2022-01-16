@@ -6,7 +6,7 @@
   <arg name="map_file" default="/home/lennart/catkin_ws/src/rtc_project/maps/default_map"/>
 
   <!-- Gazebo; wird nur gestartet, wenn gazebo == true -->
-  <group if="$(arg gazebo)">
+  <group if="$(eval arg ('gazebo') == true)">
     <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
   </group>
   

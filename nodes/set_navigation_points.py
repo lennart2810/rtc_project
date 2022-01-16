@@ -8,32 +8,21 @@
 import sys
 import rospy
 import subprocess
-# from std_msgs.msg import Float64
 from geometry_msgs.msg import Twist
 from ds4_driver.msg import Status, Feedback
 from sensor_msgs.msg import LaserScan
 from math import isnan  # is not a number
 from geometry_msgs.msg import Pose
-#from geometry_msgs.msg import TransformStamped
 from tf2_msgs.msg import TFMessage
 
-#tf2_msgs/TFMessage
 
-
-class StatusToTurtleTwist(object):
+class SetNavigationPoints(object):
     def __init__(self, filename, controller_layout, map_file):
 
-        # 'relative' Pfade zu shell scipten
-        #self.map_saver = filename.replace('nodes/ps4_set_navigation_points.py', 'shell/map_saver.sh')
-
-        # map_file wird vom turtlebot3_navigation benötigt
-        # hier wird aber das file, in welches posen gespeichert werden sollen gebraucht!
         self.map_path = map_file.replace('.yaml', '_path.txt')
         rospy.loginfo(self.map_path)
-        #self.map_file = map_file
-        #self.map_path = map_file + '_path.txt'
 
-        self.map_saved = False
+        #self.map_saved = False
 
         # ROS Parameter einlesen
         self.inputs = rospy.get_param('~inputs')
@@ -80,6 +69,9 @@ class StatusToTurtleTwist(object):
         # set navigation points
         rospy.Subscriber('tf', TFMessage, self.cb_get_pose)
         self.pose = Pose()
+
+        # kill joint_state_publisher
+        # da /tf sonst von zu vielen Nodes gepublished wird
 
         # /debug
         # self.pub_debug = rospy.Publisher('debug', Float64, queue_size=1)
@@ -316,14 +308,13 @@ class StatusToTurtleTwist(object):
 def main(filename, layout, map_file):
     rospy.init_node('ps4_turtle_control')
 
-    StatusToTurtleTwist(filename, layout, map_file)
+    SetNavigationPoints(filename, layout, map_file)
 
     rospy.spin()
 
 
 if __name__ == '__main__':
 
-    # Argumente aus ps4_turtle_control.launch
     filename = sys.argv[0]
     layout = sys.argv[1]
     map_file = sys.argv[2]
