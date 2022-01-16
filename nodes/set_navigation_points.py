@@ -22,8 +22,6 @@ class SetNavigationPoints(object):
         self.map_path = map_file.replace('.yaml', '_path.txt')
         rospy.loginfo(self.map_path)
 
-        #self.map_saved = False
-
         # ROS Parameter einlesen
         self.inputs = rospy.get_param('~inputs')
         self.layouts = rospy.get_param('~layouts')
@@ -69,12 +67,6 @@ class SetNavigationPoints(object):
         # set navigation points
         rospy.Subscriber('tf', TFMessage, self.cb_get_pose)
         self.pose = Pose()
-
-        # kill joint_state_publisher
-        # da /tf sonst von zu vielen Nodes gepublished wird
-
-        # /debug
-        # self.pub_debug = rospy.Publisher('debug', Float64, queue_size=1)
 
     def __init__controller_layout(self, layout):
 

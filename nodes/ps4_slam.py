@@ -15,7 +15,7 @@ from sensor_msgs.msg import LaserScan
 from math import isnan  # is not a number
 
 
-class StatusToTurtleTwist(object):
+class Ps4Slam(object):
     def __init__(self, filename, controller_layout, map_file):
 
         # 'relative' Pfade zu shell scipten
@@ -65,9 +65,6 @@ class StatusToTurtleTwist(object):
         self.distance = 0
         # im Moment nur Float --> Array, um Distanz nach vorne zu mitteln
         rospy.Subscriber('scan', LaserScan, self.cb_scan, queue_size=1)
-
-        # /debug
-        # self.pub_debug = rospy.Publisher('debug', Float64, queue_size=1)
 
     def __init__controller_layout(self, layout):
 
@@ -275,7 +272,7 @@ class StatusToTurtleTwist(object):
 def main(filename, layout, map_file):
     rospy.init_node('ps4_slam')
 
-    StatusToTurtleTwist(filename, layout, map_file)
+    Ps4Slam(filename, layout, map_file)
 
     rospy.spin()
 
