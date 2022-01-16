@@ -26,16 +26,17 @@
 * die SHARE - Taste führt den [`map_saver`](http://wiki.ros.org/map_server) aus, sodass die Karte unter `map_file` gespeichert wird.
 <br />
 
-### Navigationsziele setzen (Steuerung mit Controller)
+### Navigationsziele setzen
    ```sh
    roslaunch rtc_project set_navigation_points.launch points_via_robot:=true gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map.yaml
    ```
+#### RViz
+* mit `points_via_robot:=false` müssen die Ziele über den *2D Nav Goal* - Pfeil gesetzt werden
+* unter *Tool Properties* muss das Topic daür **move_base_simple/set_goal** lauten.
+#### Turtlebot
+* mit derSHARE - Taste wird die aktuelle Position und Orientierung des Turtlebots in eine **.txt** gespeichert.
 * mit derSHARE - Taste wird die aktuelle Position und Orientierung des Turtlebots in eine **.txt** gespeichert.  
    
-wenn `gazebo:=true`:
-   ```sh
-   rosnode kill /robot_state_publisher
-   ```
 da `/tf` sonst von zu vielen nodes gepublished wird!
 
 ### Navigationsziele setzen (Punkte in RViz setzen)
@@ -46,10 +47,6 @@ da `/tf` sonst von zu vielen nodes gepublished wird!
 #### Advanced Monte Carlo Localization (AMCL)
    ```sh
    roslaunch rtc_project navigation.launch gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map.yaml
-   ```
-#### Sonar-Point-Cloud in Costmap eintragen
-   ```sh
-   rosrun rtc sonar_to_costmap.py
    ```
 #### Ziele mit Action-Server anfahren 
    ```sh
