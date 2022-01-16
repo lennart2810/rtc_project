@@ -10,10 +10,10 @@
     <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
   </group>
   
-  <!-- ds4_driver starten -->
+  <!-- ds4_driver -->
   <include file="$(find ds4_driver)/launch/ds4_driver.launch" /> 
 
-  <!-- ps4_turtle_control starten -->
+  <!-- ps4_turtle_control -->
   <node pkg="rtc_project" 
         type="ps4_slam.py" 
         name="ps4_slam" 

@@ -9,6 +9,7 @@
     <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
   </group>
   
+   <!-- PointCloud to Costmap -->
   <node pkg="rtc_project" 
         type="sonar_to_costmap.py" 
         name="sonar_to_costmap" 

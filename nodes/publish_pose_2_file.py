@@ -4,7 +4,6 @@
 import sys
 import rospy
 from geometry_msgs.msg import PoseStamped
-filename = "/home/lennart/catkin_ws/src/rtc_project/maps/test_path.txt"
 
 
 def clickCB(data):
@@ -26,7 +25,6 @@ if __name__ == '__main__':
 
     filename = sys.argv[0]
     map_file = sys.argv[1]
-
     map_path = map_file.replace('.yaml', '_path.txt')
 
     try:

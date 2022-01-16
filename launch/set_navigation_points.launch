@@ -38,7 +38,8 @@
   	</node>
   </group>
   
-  <!-- Goals mit Rviz setzen -->
+  <!-- goals mit Rviz setzen -->
+  <!-- ToolProperties auf /move_base_simple/set_goal -->
   <group if="$(eval arg ('points_via_robot') == false)">
   	<node pkg="rtc_project" 
         	type="publish_pose_2_file.py" 
