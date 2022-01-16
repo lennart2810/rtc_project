@@ -31,10 +31,10 @@
    roslaunch rtc_project set_navigation_points.launch points_via_robot:=true gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map.yaml
    ```
 #### RViz
-* mit `points_via_robot:=false` müssen die Ziele über den *2D Nav Goal* - Pfeil gesetzt werden
-* unter *Tool Properties* muss das Topic daür **move_base_simple/set_goal** lauten.
+* mit `points_via_robot:=false` werden die Ziele über den *2D Nav Goal* - Pfeil gesetzt.
+* unter *Tool Properties* muss das Topic daür **move_base_simple/set_goal** eingestell werden.
 #### Turtlebot
-* mit derSHARE - Taste wird die aktuelle Position und Orientierung des Turtlebots in eine **.txt** gespeichert.
+* mit `points_via_robot:=true` können die Navigationsziele mit dem Turtlebot *angefahren* werden.
 * mit derSHARE - Taste wird die aktuelle Position und Orientierung des Turtlebots in eine **.txt** gespeichert.  
    
 da `/tf` sonst von zu vielen nodes gepublished wird!
