@@ -71,12 +71,7 @@
 ## Credits
 * [ProfJust](https://github.com/ProfJust/rtc)
 * [ROBOTIS](https://github.com/ROBOTIS-GIT/turtlebot3)
-*  Navigation Tuning
+* [Kaiyu Zheng](https://kaiyuzheng.me/documents/navguide.pdf)
 * [naoki-mizuno](https://github.com/naoki-mizuno/ds4_driver)
-
-## Contact
-* _Lennart Fuhrig_ - [GitHub](https://github.com/lennart2810) 
-* _Marcel Heinen_
-* _Jonas Klinker_
 
 <p align="right"><a href="#top">back to top</a></p>
