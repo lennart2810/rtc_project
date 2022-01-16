@@ -36,11 +36,6 @@
 #### Turtlebot
 * mit `points_via_robot:=true` können die Navigationsziele mit dem Turtlebot *angefahren* werden.
 * mit derSHARE - Taste wird die aktuelle Position und Orientierung des Turtlebots in eine **.txt** gespeichert.  
-   
-da `/tf` sonst von zu vielen nodes gepublished wird!
-
-### Navigationsziele setzen (Punkte in RViz setzen)
-...
 <br />
 
 ### Navigation
