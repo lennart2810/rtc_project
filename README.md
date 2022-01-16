@@ -14,7 +14,7 @@
 * [DualShock 4 Wireless-Controller](https://www.playstation.com/de-de/accessories/dualshock-4-wireless-controller/)
 <br />
 
-## Run Code (Gazebo)
+## Run Code
 
 ### Karte aufnehmen (Steuerung mit DualShock 4 Wireless-Controller)
 #### Simultaneous Localization and Mapping (SLAM)
