@@ -14,47 +14,40 @@
 * [DualShock 4 Wireless-Controller](https://www.playstation.com/de-de/accessories/dualshock-4-wireless-controller/)
 <br />
 
-## Run Code (Gazebo)
+## Run Code
 
 ### Karte aufnehmen (Steuerung mit DualShock 4 Wireless-Controller)
 #### Simultaneous Localization and Mapping (SLAM)
    ```sh
-   roslaunch rtc_project ps4_slam.launch gazebo:=false controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map
+   roslaunch rtc_project slam.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map
    ```
 * für das Arbeiten mit dem realen Turtlebot muss `gazebo:=false` sein.
 * `controller_layout:=2` sorgt dafür, dass der Turtlebot mit den beiden Joysticks gesteuert wird.
 * die SHARE - Taste führt den [`map_saver`](http://wiki.ros.org/map_server) aus, sodass die Karte unter `map_file` gespeichert wird.
 <br />
 
-### Navigationsziele setzen (Steuerung mit Controller)
+### Navigationsziele setzen
    ```sh
-   roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=false controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+   roslaunch rtc_project set_navigation_points.launch points_via_robot:=true gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map.yaml
    ```
-* mit derSHARE - Taste wird die aktuelle Position und Orientierung des Turtlebots in eine **.txt** gespeichert.  
-   
-wenn `gazebo:=true`:
-   ```sh
-   rosnode kill /robot_state_publisher
-   ```
-da `/tf` sonst von zu vielen nodes gepublished wird!
-
-### Navigationsziele setzen (Punkte in RViz setzen)
-...
+#### RViz
+* mit `points_via_robot:=false` werden die Ziele über den *2D Nav Goal* - Pfeil gesetzt.
+* unter *Tool Properties* muss dafür das Topic **move_base_simple/set_goal** eingestell werden.
+#### Turtlebot (DualShock 4 Wireless-Controller)
+* mit `points_via_robot:=true` können die Navigationsziele mit dem Turtlebot *angefahren* werden.
+* mit der SHARE - Taste wird die aktuelle Position und Orientierung des Turtlebots in eine **.txt** gespeichert ([publish_pose_2_file](https://github.com/ProfJust/rtc/blob/master/nodes/ue07_navigation_amcl/publish_pose_2_file.py)). 
 <br />
 
 ### Navigation
 #### Advanced Monte Carlo Localization (AMCL)
    ```sh
-   roslaunch rtc_project navigation.launch gazebo:=false map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
-   ```
-#### Sonar-Point-Cloud in Costmap eintragen
-   ```sh
-   rosrun rtc sonar_to_costmap.py
+   roslaunch rtc_project navigation.launch gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map.yaml
    ```
 #### Ziele mit Action-Server anfahren 
    ```sh
-   rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/house_map_path.txt
+   rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/default_map_path.txt
    ```
+* mit [turtlebot3_move_base_action_client](https://github.com/ProfJust/rtc/blob/master/nodes/ue07_navigation_amcl/turtlebot3_move_base_action_client.py) werden alle gesetzen Navigationsziele nacheinander angefahren.
 <br />
 
 ## Sicherheitsfunktion, falls Marcel wieder nur am Rasen ist ;)
@@ -78,12 +71,7 @@ da `/tf` sonst von zu vielen nodes gepublished wird!
 ## Credits
 * [ProfJust](https://github.com/ProfJust/rtc)
 * [ROBOTIS](https://github.com/ROBOTIS-GIT/turtlebot3)
-*  Navigation Tuning
+* [Kaiyu Zheng](https://kaiyuzheng.me/documents/navguide.pdf)
 * [naoki-mizuno](https://github.com/naoki-mizuno/ds4_driver)
-
-## Contact
-* _Lennart Fuhrig_ - [GitHub](https://github.com/lennart2810) 
-* _Marcel Heinen_
-* _Jonas Klinker_
 
 <p align="right"><a href="#top">back to top</a></p>
