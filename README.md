@@ -19,7 +19,7 @@
 ### Karte aufnehmen (Steuerung mit DualShock 4 Wireless-Controller)
 #### Simultaneous Localization and Mapping (SLAM)
    ```sh
-   roslaunch rtc_project slam.launch gazebo:=false controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map
+   roslaunch rtc_project slam.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map
    ```
 * für das Arbeiten mit dem realen Turtlebot muss `gazebo:=false` sein.
 * `controller_layout:=2` sorgt dafür, dass der Turtlebot mit den beiden Joysticks gesteuert wird.
@@ -28,7 +28,7 @@
 
 ### Navigationsziele setzen (Steuerung mit Controller)
    ```sh
-   roslaunch rtc_project ps4_set_navigation_points.launch gazebo:=false controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+   roslaunch rtc_project ps4_set_navigation_points.launch points_via_robot:=false gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map.yaml
    ```
 * mit derSHARE - Taste wird die aktuelle Position und Orientierung des Turtlebots in eine **.txt** gespeichert.  
    
