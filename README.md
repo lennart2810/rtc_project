@@ -45,7 +45,7 @@ da `/tf` sonst von zu vielen nodes gepublished wird!
 ### Navigation
 #### Advanced Monte Carlo Localization (AMCL)
    ```sh
-   roslaunch rtc_project navigation.launch gazebo:=false map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+   roslaunch rtc_project navigation.launch gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map.yaml
    ```
 #### Sonar-Point-Cloud in Costmap eintragen
    ```sh
@@ -53,7 +53,7 @@ da `/tf` sonst von zu vielen nodes gepublished wird!
    ```
 #### Ziele mit Action-Server anfahren 
    ```sh
-   rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/house_map_path.txt
+   rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/default_map_path.txt
    ```
 <br />
 
