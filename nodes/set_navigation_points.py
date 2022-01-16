@@ -7,7 +7,7 @@
 
 import sys
 import rospy
-import subprocess
+#import subprocess
 from geometry_msgs.msg import Twist
 from ds4_driver.msg import Status, Feedback
 from sensor_msgs.msg import LaserScan
@@ -66,6 +66,7 @@ class SetNavigationPoints(object):
 
         # set navigation points
         rospy.Subscriber('tf', TFMessage, self.cb_get_pose)
+        self.child_frame_id = ''
         self.pose = Pose()
 
     def __init__controller_layout(self, layout):
@@ -120,16 +121,22 @@ class SetNavigationPoints(object):
 
     def cb_get_pose(self, tf):
 
-        self.pose.position.x = tf.transforms[0].transform.translation.x
-        self.pose.position.y = tf.transforms[0].transform.translation.y
+        self.child_frame_id = tf.transforms[0].child_frame_id
+        if self.child_frame_id == 'base_footprint':
+            self.pose.position.x = tf.transforms[0].transform.translation.x
+            self.pose.position.y = tf.transforms[0].transform.translation.y
 
-        self.pose.orientation.x = tf.transforms[0].transform.rotation.x
-        self.pose.orientation.y = tf.transforms[0].transform.rotation.y
-        self.pose.orientation.z = tf.transforms[0].transform.rotation.z
-        self.pose.orientation.w = tf.transforms[0].transform.rotation.w
+            self.pose.orientation.x = tf.transforms[0].transform.rotation.x
+            self.pose.orientation.y = tf.transforms[0].transform.rotation.y
+            self.pose.orientation.z = tf.transforms[0].transform.rotation.z
+            self.pose.orientation.w = tf.transforms[0].transform.rotation.w
 
     def set_navigation_points(self):
 
+        while self.child_frame_id != 'base_footprint':
+            pass
+        
+        rospy.loginfo(self.child_frame_id)
         fobj = open(self.map_path, 'a')
         write_str = "[" + str(self.pose.position.x) + ","\
                     + str(self.pose.position.y) + ","\
@@ -137,7 +144,7 @@ class SetNavigationPoints(object):
                     + str(self.pose.orientation.y) + ","\
                     + str(self.pose.orientation.z) + ","\
                     + str(self.pose.orientation.w) \
-                    + "] \n"
+                    + "] \n"            
         fobj.write(write_str)
         fobj.close()
 

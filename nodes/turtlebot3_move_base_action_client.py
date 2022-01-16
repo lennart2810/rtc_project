@@ -17,7 +17,7 @@ def read_path_from_file(filename):
     rospy.loginfo("Reading Path from path.txt : ")
     with open(filename, 'r') as fin:
         for line in fin:
-            path.append(eval(line)) 
+            path.append(eval(line))
     del path[0]
     rospy.loginfo(str(path))
 

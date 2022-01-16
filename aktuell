@@ -29,6 +29,9 @@ sudo ntpdate 192.168.1.111
 
 
 update:
-footprint anpassen
-costen für enge kurven erhöhen
-navigation points über rviz
+
+footprint anpassen --> breite auf 24cm
+costen für enge kurven erhöhen --> cost_scaling_factor auf 3.0, inflation auf (cost_map_common_params)
+
+navigation points über rviz oder realen turtle (in gazebo check)
+beim realen: passt tf zur aktuellen position (mit map abgleichen)
