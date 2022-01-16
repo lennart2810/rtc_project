@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# original: WHS, OJ , 3.12.2020
+# original: WHS, OJ, 3.12.2020
 
 import sys
 import rospy
@@ -23,7 +23,7 @@ def clickCB(data):
 
 if __name__ == '__main__':
 
-    filename = sys.argv[0]
+    # filename = sys.argv[0]
     map_file = sys.argv[1]
     map_path = map_file.replace('.yaml', '_path.txt')
 

@@ -135,8 +135,7 @@ class SetNavigationPoints(object):
 
         while self.child_frame_id != 'base_footprint':
             pass
-        
-        rospy.loginfo(self.child_frame_id)
+
         fobj = open(self.map_path, 'a')
         write_str = "[" + str(self.pose.position.x) + ","\
                     + str(self.pose.position.y) + ","\
@@ -144,9 +143,11 @@ class SetNavigationPoints(object):
                     + str(self.pose.orientation.y) + ","\
                     + str(self.pose.orientation.z) + ","\
                     + str(self.pose.orientation.w) \
-                    + "] \n"            
+                    + "] \n"
         fobj.write(write_str)
         fobj.close()
+
+        rospy.loginfo(write_str)
 
     def cb_status(self, msg):
 
@@ -189,11 +190,7 @@ class SetNavigationPoints(object):
 
         # shell script (map_saver.sh) mit Shate starten
         if msg.button_share and not self.prev_status.button_share:
-            rospy.loginfo('set navigation point')
             self.set_navigation_points()
-
-            # set navigation points
-            # tf subscriben, pose extrahieren und dann in file speichern
 
         self.prev_status = msg
 
