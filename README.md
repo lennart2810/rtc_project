@@ -30,6 +30,11 @@
    ```sh
    roslaunch rtc_project set_navigation_points.launch points_via_robot:=true gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map.yaml
    ```
+   
+   ```sh
+   sudo ntpdate 192.168.1.111
+   ```
+   
 #### RViz
 * mit `points_via_robot:=false` werden die Ziele über den *2D Nav Goal* - Pfeil gesetzt.
 * unter *Tool Properties* muss dafür das Topic **move_base_simple/set_goal** eingestell werden.
@@ -50,12 +55,15 @@
 * mit [turtlebot3_move_base_action_client](https://github.com/ProfJust/rtc/blob/master/nodes/ue07_navigation_amcl/turtlebot3_move_base_action_client.py) werden alle gesetzen Navigationsziele nacheinander angefahren.
 <br />
 
+<!---
 ## Sicherheitsfunktion, falls Marcel wieder nur am Rasen ist ;)
 <div align="center">
   <a href="https://github.com/lennart2810/rtc_project/blob/master/scripts/ObjectWarnings.ipynb">
     <img src="appendix/Sicherheitsfunktionen.png" alt="Images" width="500" height="420">
   </a>
 </div>
+-->
+
 <br />
 
 
