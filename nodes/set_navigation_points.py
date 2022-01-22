@@ -66,11 +66,8 @@ class SetNavigationPoints(object):
         rospy.Subscriber('scan', LaserScan, self.cb_scan, queue_size=1)
 
         # set navigation points
-        #rospy.Subscriber('tf', TFMessage, self.cb_get_pose)
-        self.child_frame_id = ''
-        self.pose = Pose()
-
         rospy.Subscriber('amcl_pose', PoseWithCovarianceStamped, self.cb_get_pose)
+        self.pose = Pose()
 
     def __init__controller_layout(self, layout):
 
@@ -131,16 +128,6 @@ class SetNavigationPoints(object):
         self.pose.orientation.y = msg.pose.pose.orientation.y
         self.pose.orientation.z = msg.pose.pose.orientation.z
         self.pose.orientation.w = msg.pose.pose.orientation.w
-
-        # self.child_frame_id = tf.transforms[0].child_frame_id
-        # if self.child_frame_id == 'base_footprint':
-        #     self.pose.position.x = tf.transforms[0].transform.translation.x
-        #     self.pose.position.y = tf.transforms[0].transform.translation.y
-
-        #     self.pose.orientation.x = tf.transforms[0].transform.rotation.x
-        #     self.pose.orientation.y = tf.transforms[0].transform.rotation.y
-        #     self.pose.orientation.z = tf.transforms[0].transform.rotation.z
-        #     self.pose.orientation.w = tf.transforms[0].transform.rotation.w
 
     def set_navigation_points(self):
 
@@ -225,8 +212,8 @@ class SetNavigationPoints(object):
 
         # Kollisionen verhindern, wenn Turtle nach vorne fährt
         # wenn Laser-Scan ungenau / unkonstant --> diese beiden Zeilen auskommentieren
-        #if self.vel_msg.linear.x > 0:
-            #self.vel_msg.linear.x *= self.reduce_vel()
+        # if self.vel_msg.linear.x > 0:
+            # self.vel_msg.linear.x *= self.reduce_vel()
 
         if self.pub_vel_flag:
 
