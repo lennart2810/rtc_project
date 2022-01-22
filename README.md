@@ -50,12 +50,15 @@
 * mit [turtlebot3_move_base_action_client](https://github.com/ProfJust/rtc/blob/master/nodes/ue07_navigation_amcl/turtlebot3_move_base_action_client.py) werden alle gesetzen Navigationsziele nacheinander angefahren.
 <br />
 
+<!---
 ## Sicherheitsfunktion, falls Marcel wieder nur am Rasen ist ;)
 <div align="center">
   <a href="https://github.com/lennart2810/rtc_project/blob/master/scripts/ObjectWarnings.ipynb">
     <img src="appendix/Sicherheitsfunktionen.png" alt="Images" width="500" height="420">
   </a>
 </div>
+-->
+
 <br />
 
 
