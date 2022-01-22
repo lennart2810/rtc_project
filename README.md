@@ -30,6 +30,11 @@
    ```sh
    roslaunch rtc_project set_navigation_points.launch points_via_robot:=true gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map.yaml
    ```
+   
+   ```sh
+   sudo ntpdate 192.168.1.111
+   ```
+   
 #### RViz
 * mit `points_via_robot:=false` werden die Ziele über den *2D Nav Goal* - Pfeil gesetzt.
 * unter *Tool Properties* muss dafür das Topic **move_base_simple/set_goal** eingestell werden.
