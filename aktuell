@@ -20,6 +20,11 @@ https://github.com/lennart2810/rtc_project/blob/master/README.md
 ## slam
 
 ## navigation:
+xy_goal_tolerance
+yaw tolerance (dwa_local_planner_params_burger)
+inflation_radius: 0.18 # was 1.0
+oscillation_timeout
+planner_frequency:
 
 ## costmap:
 - wie in rtc von Just vorgeben

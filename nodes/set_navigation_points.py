@@ -14,6 +14,7 @@ from sensor_msgs.msg import LaserScan
 from math import isnan  # is not a number
 from geometry_msgs.msg import Pose
 from tf2_msgs.msg import TFMessage
+from geometry_msgs.msg import PoseWithCovarianceStamped  
 
 
 class SetNavigationPoints(object):
@@ -65,9 +66,11 @@ class SetNavigationPoints(object):
         rospy.Subscriber('scan', LaserScan, self.cb_scan, queue_size=1)
 
         # set navigation points
-        rospy.Subscriber('tf', TFMessage, self.cb_get_pose)
+        #rospy.Subscriber('tf', TFMessage, self.cb_get_pose)
         self.child_frame_id = ''
         self.pose = Pose()
+
+        rospy.Subscriber('amcl_pose', PoseWithCovarianceStamped, self.cb_get_pose)
 
     def __init__controller_layout(self, layout):
 
@@ -119,22 +122,30 @@ class SetNavigationPoints(object):
         self.green_func = lambda x: \
             max(min(1, round(1/(max_dist-min_dist)*(x-min_dist)+0, 2)), 0)
 
-    def cb_get_pose(self, tf):
+    def cb_get_pose(self, msg):
 
-        self.child_frame_id = tf.transforms[0].child_frame_id
-        if self.child_frame_id == 'base_footprint':
-            self.pose.position.x = tf.transforms[0].transform.translation.x
-            self.pose.position.y = tf.transforms[0].transform.translation.y
+        self.pose.position.x = msg.pose.pose.position.x
+        self.pose.position.y = msg.pose.pose.position.y
 
-            self.pose.orientation.x = tf.transforms[0].transform.rotation.x
-            self.pose.orientation.y = tf.transforms[0].transform.rotation.y
-            self.pose.orientation.z = tf.transforms[0].transform.rotation.z
-            self.pose.orientation.w = tf.transforms[0].transform.rotation.w
+        self.pose.orientation.x = msg.pose.pose.orientation.x
+        self.pose.orientation.y = msg.pose.pose.orientation.y
+        self.pose.orientation.z = msg.pose.pose.orientation.z
+        self.pose.orientation.w = msg.pose.pose.orientation.w
+
+        # self.child_frame_id = tf.transforms[0].child_frame_id
+        # if self.child_frame_id == 'base_footprint':
+        #     self.pose.position.x = tf.transforms[0].transform.translation.x
+        #     self.pose.position.y = tf.transforms[0].transform.translation.y
+
+        #     self.pose.orientation.x = tf.transforms[0].transform.rotation.x
+        #     self.pose.orientation.y = tf.transforms[0].transform.rotation.y
+        #     self.pose.orientation.z = tf.transforms[0].transform.rotation.z
+        #     self.pose.orientation.w = tf.transforms[0].transform.rotation.w
 
     def set_navigation_points(self):
 
-        while self.child_frame_id != 'base_footprint':
-            pass
+        # while self.child_frame_id != 'base_footprint':
+        #     pass
 
         fobj = open(self.map_path, 'a')
         write_str = "[" + str(self.pose.position.x) + ","\
@@ -214,8 +225,8 @@ class SetNavigationPoints(object):
 
         # Kollisionen verhindern, wenn Turtle nach vorne fährt
         # wenn Laser-Scan ungenau / unkonstant --> diese beiden Zeilen auskommentieren
-        if self.vel_msg.linear.x > 0:
-            self.vel_msg.linear.x *= self.reduce_vel()
+        #if self.vel_msg.linear.x > 0:
+            #self.vel_msg.linear.x *= self.reduce_vel()
 
         if self.pub_vel_flag:
 
