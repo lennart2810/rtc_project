@@ -19,7 +19,7 @@
 ### Karte aufnehmen (Steuerung mit DualShock 4 Wireless-Controller)
 #### Simultaneous Localization and Mapping (SLAM)
    ```sh
-   roslaunch rtc_project slam.launch gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map
+   roslaunch rtc_project slam.launch gazebo:=false controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/Arena
    ```
 * für das Arbeiten mit dem realen Turtlebot muss `gazebo:=false` sein.
 * `controller_layout:=2` sorgt dafür, dass der Turtlebot mit den beiden Joysticks gesteuert wird.
@@ -28,7 +28,7 @@
 
 ### Navigationsziele setzen
    ```sh
-   roslaunch rtc_project set_navigation_points.launch points_via_robot:=true gazebo:=true controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map.yaml
+   roslaunch rtc_project set_navigation_points.launch points_via_robot:=true gazebo:=false controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/Arena.yaml
    ```
    
    ```sh
@@ -46,11 +46,11 @@
 ### Navigation
 #### Advanced Monte Carlo Localization (AMCL)
    ```sh
-   roslaunch rtc_project navigation.launch gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/default_map.yaml
+   roslaunch rtc_project navigation.launch gazebo:=false map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/Arena.yaml
    ```
 #### Ziele mit Action-Server anfahren 
    ```sh
-   rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/default_map_path.txt
+   rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/Arena_path.txt
    ```
 * mit [turtlebot3_move_base_action_client](https://github.com/ProfJust/rtc/blob/master/nodes/ue07_navigation_amcl/turtlebot3_move_base_action_client.py) werden alle gesetzen Navigationsziele nacheinander angefahren.
 <br />
