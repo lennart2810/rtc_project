@@ -40,3 +40,6 @@ costen für enge kurven erhöhen --> cost_scaling_factor auf 3.0, inflation auf 
 
 navigation points über rviz oder realen turtle (in gazebo check)
 beim realen: passt tf zur aktuellen position (mit map abgleichen)
+
+
+# Präsentation

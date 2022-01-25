@@ -36,6 +36,7 @@ import rospy
 import std_msgs.msg
 from geometry_msgs.msg import Point32
 from sensor_msgs.msg import Range
+from turtlebot3_msgs.msg import SensorState
 from sensor_msgs.msg import PointCloud  # Message für die Sonar-Hindernisse
 
 
@@ -52,10 +53,17 @@ class Sonar_to_Point_Cloud():
                                                Range,
                                                self.get_sonar_left,
                                                queue_size=10)
-        self.sonar_sub_right = rospy.Subscriber('sonar_right',
-                                                Range,
+                                               
+        # self.sonar_sub_right = rospy.Subscriber('sonar_right',
+        #                                         Range,
+        #                                         self.get_sonar_right,
+        #                                         queue_size=10)
+
+        self.sonar_sub_right = rospy.Subscriber('sensor_state',
+                                                SensorState,
                                                 self.get_sonar_right,
                                                 queue_size=10)
+
         self.dist_left = 0.0
         self.dist_right = 0.0
         self.rate = rospy.Rate(10)
@@ -67,9 +75,16 @@ class Sonar_to_Point_Cloud():
         self.dist_left = sensor_data_left.range
         self.cloud_build()
 
+    # def get_sonar_right(self, sensor_data_right):
+    #     # rospy.loginfo(" Sonar Data Right received ")
+    #     self.dist_right = sensor_data_right.range
+    #     self.cloud_build()
+
     def get_sonar_right(self, sensor_data_right):
         # rospy.loginfo(" Sonar Data Right received ")
-        self.dist_right = sensor_data_right.range
+        self.dist_right = sensor_data_right.cliff
+        self.dist_left = sensor_data_right.sonar
+        rospy.loginfo(self.dist_right)
         self.cloud_build()
 
     def cloud_build(self):
@@ -107,6 +122,7 @@ class Sonar_to_Point_Cloud():
             cloud.points.append(pr)
 
         # Senden
+        rospy.loginfo('SonarPointCloud')
         self.cloud_pub.publish(cloud)
 
 
