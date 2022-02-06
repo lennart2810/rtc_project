@@ -56,3 +56,6 @@ sonar mittelpunkt berechnen
 auf turtlepose transferieren 
 und als mouse_location publishen
 
+roslaunch rtc_project advanced_navigation.launch points_via_robot:=true gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
+
+
