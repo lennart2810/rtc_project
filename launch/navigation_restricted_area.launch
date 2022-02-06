@@ -11,8 +11,8 @@
   
   <!-- PointCloud to Costmap -->
   <node pkg="rtc_project" 
-        type="sonar_to_costmap.py" 
-        name="sonar_to_costmap" 
+        type="sonar_to_restricted_area.py" 
+        name="sonar_to_restricted_area" 
         output="screen" >
   </node>
 

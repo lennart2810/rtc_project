@@ -11,6 +11,11 @@
 - sonar_to_costmap.py --> rtc_project
 - pub_points_2_file.py anpassen (path_file über argumente in launch file)
 
+
+## Sonar wieder ans laufen bekommen
+## Twist Mux
+## Restricted Area PlugIn
+
 # AKTUELLEN Code ausführen:
 https://github.com/lennart2810/rtc_project/blob/master/README.md
 
@@ -42,4 +47,12 @@ navigation points über rviz oder realen turtle (in gazebo check)
 beim realen: passt tf zur aktuellen position (mit map abgleichen)
 
 
-# Präsentation
+
+# Resticted Area
+anweisungen von just
+rviz config mit toolpoperties gespeichert, damit man nicht immer erst size ändern muss um zu acitvieren
+
+sonar mittelpunkt berechnen
+auf turtlepose transferieren 
+und als mouse_location publishen
+

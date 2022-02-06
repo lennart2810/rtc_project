@@ -48,20 +48,9 @@ class Sonar_to_Point_Cloud():
                                          PointCloud,
                                          queue_size=10)
 
-        # receiving sonar_left and sonar_right
-        self.sonar_sub_left = rospy.Subscriber('sonar_left',
-                                               Range,
-                                               self.get_sonar_left,
-                                               queue_size=10)
-                                               
-        # self.sonar_sub_right = rospy.Subscriber('sonar_right',
-        #                                         Range,
-        #                                         self.get_sonar_right,
-        #                                         queue_size=10)
-
-        self.sonar_sub_right = rospy.Subscriber('sensor_state',
+        self.sonar_sub = rospy.Subscriber('sensor_state',
                                                 SensorState,
-                                                self.get_sonar_right,
+                                                self.get_both_sonar,
                                                 queue_size=10)
 
         self.dist_left = 0.0
@@ -70,21 +59,19 @@ class Sonar_to_Point_Cloud():
         while not rospy.is_shutdown():
             self.rate.sleep()
 
-    def get_sonar_left(self, sensor_data_left):
-        # rospy.loginfo(" Sonar Data Left received ")
-        self.dist_left = sensor_data_left.range
-        self.cloud_build()
-
-    # def get_sonar_right(self, sensor_data_right):
-    #     # rospy.loginfo(" Sonar Data Right received ")
-    #     self.dist_right = sensor_data_right.range
-    #     self.cloud_build()
-
-    def get_sonar_right(self, sensor_data_right):
-        # rospy.loginfo(" Sonar Data Right received ")
-        self.dist_right = sensor_data_right.cliff
-        self.dist_left = sensor_data_right.sonar
-        rospy.loginfo(self.dist_right)
+    def get_both_sonar(self, sensor_data):
+        print = False
+        # Left
+        dist_left = Range()
+        dist_left = sensor_data.sonar / 100
+        self.dist_left = dist_left
+        if print: rospy.loginfo("Left: " + str(self.dist_left))
+        # Right
+        dist_right = Range()
+        dist_right = sensor_data.cliff / 100
+        self.dist_right = dist_right
+        if print: rospy.loginfo("Right: " + str(self.dist_right))
+        # Cloud Build
         self.cloud_build()
 
     def cloud_build(self):
@@ -122,7 +109,7 @@ class Sonar_to_Point_Cloud():
             cloud.points.append(pr)
 
         # Senden
-        rospy.loginfo('SonarPointCloud')
+        #rospy.loginfo('SonarPointCloud')
         self.cloud_pub.publish(cloud)
 
 

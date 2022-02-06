@@ -13,12 +13,12 @@ from ds4_driver.msg import Status, Feedback
 from sensor_msgs.msg import LaserScan
 from math import isnan  # is not a number
 from geometry_msgs.msg import Pose
-#from tf2_msgs.msg import TFMessage
-from geometry_msgs.msg import PoseWithCovarianceStamped
+from tf2_msgs.msg import TFMessage
+from geometry_msgs.msg import PoseWithCovarianceStamped  
 
 
-class SetNavigationPoints(object):
-    def __init__(self, filename, controller_layout, map_file):
+class Ps4Navigation(object):
+    def __init__(self, controller_layout, map_file):
 
         self.map_path = map_file.replace('.yaml', '_path.txt')
         rospy.loginfo(self.map_path)
@@ -299,10 +299,10 @@ class SetNavigationPoints(object):
         self.pub_feedback.publish(self.feedback)
 
 
-def main(filename, layout, map_file):
+def main(layout, map_file):
     rospy.init_node('ps4_turtle_control')
 
-    SetNavigationPoints(filename, layout, map_file)
+    Ps4Navigation(layout, map_file)
 
     rospy.spin()
 
@@ -314,6 +314,6 @@ if __name__ == '__main__':
     map_file = sys.argv[2]
 
     try:
-        main(filename, layout, map_file)
+        main(layout, map_file)
     except rospy.ROSInterruptException:
         rospy.loginfo(" Error ")
