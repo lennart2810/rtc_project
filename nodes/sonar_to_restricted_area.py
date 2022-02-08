@@ -42,6 +42,7 @@ from sensor_msgs.msg import PointCloud  # Message für die Sonar-Hindernisse
 from geometry_msgs.msg import PoseWithCovarianceStamped
 from geometry_msgs.msg import Pose
 from tf2_msgs.msg import TFMessage
+from turtlebot3_msgs.msg import SensorState
 from math import atan2, sin, cos, degrees
 
 
@@ -59,24 +60,35 @@ class Sonar_to_RestrictedArea():
         # /cmd_vel
         #self.vel_msg = Twist
         #self.pub_vel_flag = True
-        self.pub_vel = rospy.Publisher('cmd_vel', Twist, queue_size=1)
+        #self.pub_vel = rospy.Publisher('cmd_vel', Twist, queue_size=1)
      
         # tf ist in gazebo deutlich genauer !! am realen turtlebot hoffentlich auch!!
-        # self.amcl_pose_sub = rospy.Subscriber('amcl_pose', PoseWithCovarianceStamped, self.cb_get_amcl_pose)
-        self.tf_pose_sub = rospy.Subscriber('tf', TFMessage, self.cb_get_tf_pose)
+        #self.amcl_pose_sub = rospy.Subscriber('amcl_pose', PoseWithCovarianceStamped, self.cb_get_amcl_pose)
+        #self.tf_pose_sub = rospy.Subscriber('tf', TFMessage, self.cb_get_tf_pose)
         self.pose = Pose()
 
 
 
         # receiving sonar_left and sonar_right
-        self.sonar_sub_left = rospy.Subscriber('sonar_left',
-                                               Range,
-                                               self.get_sonar_left,
-                                               queue_size=10)
-        self.sonar_sub_right = rospy.Subscriber('sonar_right',
-                                                Range,
-                                                self.get_sonar_right,
-                                                queue_size=10)
+        # self.sonar_sub_left = rospy.Subscriber('sonar_left',
+        #                                        Range,
+        #                                        self.get_sonar_left,
+        #                                        queue_size=10)
+
+        # self.sonar_sub_right = rospy.Subscriber('sonar_right',
+        #                                         Range,
+        #                                         self.get_sonar_right,
+        #                                         queue_size=10)
+
+        self.cloud_pub = rospy.Publisher('sonar/point_cloud',
+                                         PointCloud,
+                                         queue_size=10)
+
+        self.sonar_sub = rospy.Subscriber('sensor_state',
+                                           SensorState,
+                                           self.get_both_sonar,
+                                           queue_size=10)
+
         self.dist_left = 0.0
         self.dist_right = 0.0
         self.rate = rospy.Rate(20)
@@ -87,6 +99,8 @@ class Sonar_to_RestrictedArea():
     # müssen für den realen Turtlebot angepasst werden!
     # siehe sonar_to_costmap.py (get_both_sonar)
 
+
+
     def get_sonar_left(self, sensor_data_left):
         # rospy.loginfo(" Sonar Data Left received ")
         self.dist_left = sensor_data_left.range
@@ -95,6 +109,21 @@ class Sonar_to_RestrictedArea():
     def get_sonar_right(self, sensor_data_right):
         # rospy.loginfo(" Sonar Data Right received ")
         self.dist_right = sensor_data_right.range
+        self.cloud_build()
+
+    def get_both_sonar(self, sensor_data):
+        print = False
+        # Left
+        dist_left = Range()
+        dist_left = sensor_data.sonar / 100
+        self.dist_left = dist_left
+        if print: rospy.loginfo("Left: " + str(self.dist_left))
+        # Right
+        dist_right = Range()
+        dist_right = sensor_data.cliff / 100
+        self.dist_right = dist_right
+        if print: rospy.loginfo("Right: " + str(self.dist_right))
+        # Cloud Build
         self.cloud_build()
 
     def cloud_build(self):

@@ -59,3 +59,27 @@ und als mouse_location publishen
 roslaunch rtc_project advanced_navigation.launch points_via_robot:=true gazebo:=true map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/house_map.yaml
 
 
+
+
+amcl in turtlebot launch modeltype auf diff_corrected
+
+sonar to costmap raus, da nur ungenaue daten reinkommne
+
+
+
+
+# Competition
+### not needed
+roslaunch rtc_project set_navigation_points.launch points_via_robot:=true gazebo:=false controller_layout:=2 map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/Arena_PlanB.yaml
+### needed
+roslaunch rtc_project navigation.launch gazebo:=false map_file:=/home/lennart/catkin_ws/src/rtc_project/maps/Arena_kurz.yaml
+
+rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws/src/rtc_project/maps/Arena_kurz_path.txt
+
+## Variations
+- Arena_kurz: kürzester Weg bei aktuellen Hindernissen
+- Arena_Umweg: falls Hindernis bewegt, linksherum
+- Arena_PlanB: Variante ohne 28-cm Durchfahrung
+
+## restricted areas:
+siehe Screenshot...

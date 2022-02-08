@@ -10,11 +10,16 @@
   </group>
   
   <!-- PointCloud to Costmap -->
-  <node pkg="rtc_project" 
+
+  <!-- 
+      <node pkg="rtc_project" 
         type="sonar_to_costmap.py" 
         name="sonar_to_costmap" 
         output="screen" >
-  </node>
+      </node>
+  -->
+
+
 
   <!-- goals werden druch action-server an amcl übergeben -->
   <include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch" > 
