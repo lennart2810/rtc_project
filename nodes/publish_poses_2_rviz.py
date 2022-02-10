@@ -7,8 +7,6 @@ from geometry_msgs.msg import PoseArray
 
 
 def read_path_from_file(filename):
-    rospy.loginfo("Reading Path from path.txt : ")
-
     global path
     path = [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]
 
