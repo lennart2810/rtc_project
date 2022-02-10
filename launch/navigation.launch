@@ -10,7 +10,6 @@
   </group>
   
   <!-- PointCloud to Costmap -->
-
   <!-- 
       <node pkg="rtc_project" 
         type="sonar_to_costmap.py" 
@@ -19,14 +18,20 @@
       </node>
   -->
 
-
+  <!-- Navigation Goals in Rviz -->
+  <node pkg="rtc_project" 
+    type="publish_poses_2_rviz.py" 
+    name="publish_poses_2_rviz" 
+    output="screen" 
+    args="$(arg map_file)" >
+  </node>
 
   <!-- goals werden druch action-server an amcl übergeben -->
   <include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch" > 
     <arg name="map_file" value="$(arg map_file)" />
   </include>
   
-  <!-- turtle im Notfall mit Joystick übersteuern-->
+  <!-- Turtle im Notfall mit Joystick übersteuern-->
   <include file="$(find ds4_driver)/launch/ds4_driver.launch" /> 
   <node pkg="rtc_project" 
         type="ps4_navigation.py" 

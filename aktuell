@@ -83,3 +83,10 @@ rosrun rtc_project turtlebot3_move_base_action_client.py /home/lennart/catkin_ws
 
 ## restricted areas:
 siehe Screenshot...
+
+
+
+
+## 
+rc: verschiedene controller layouts in params einstellbar 
+if abfrage in launch files für gazebo oder den realen turtlebot
