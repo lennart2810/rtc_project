@@ -6,7 +6,7 @@
 
   <!-- Gazeboo; wird nur gestartet, wenn gazebo == true -->
   <group if="$(arg gazebo)">
-    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch" />
+    <include file="$(find rtc_project)/worlds/turtlebot3_arena_world.launch" />
   </group>
   
   <!-- PointCloud to Costmap -->

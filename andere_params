@@ -1,9 +1,0 @@
-cost scaling 30
-inflation radius 0.25
-
-gleiche resolution bei local und global costmap wie bei gmapping: 0.02
-
-path distance bias 60
-goal distance bias 15
-
-
