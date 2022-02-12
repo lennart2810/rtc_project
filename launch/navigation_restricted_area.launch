@@ -9,11 +9,19 @@
     <include file="$(find rtc_project)/worlds/turtlebot3_arena_world.launch" />
   </group>
   
-  <!-- PointCloud to Costmap -->
+  <!-- PointCloud to RestrictedArea -->
   <node pkg="rtc_project" 
         type="sonar_to_restricted_area.py" 
         name="sonar_to_restricted_area" 
         output="screen" >
+  </node>
+  
+  <!-- Navigation Goals in Rviz -->
+  <node pkg="rtc_project" 
+    type="publish_poses_2_rviz.py" 
+    name="publish_poses_2_rviz" 
+    output="screen" 
+    args="$(arg map_file)" >
   </node>
 
   <!-- goals werden druch action-server an amcl übergeben -->

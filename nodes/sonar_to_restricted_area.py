@@ -70,15 +70,15 @@ class Sonar_to_RestrictedArea():
 
 
         # receiving sonar_left and sonar_right
-        # self.sonar_sub_left = rospy.Subscriber('sonar_left',
-        #                                        Range,
-        #                                        self.get_sonar_left,
-        #                                        queue_size=10)
+        self.sonar_sub_left = rospy.Subscriber('sonar_left',
+                                               Range,
+                                               self.get_sonar_left,
+                                               queue_size=10)
 
-        # self.sonar_sub_right = rospy.Subscriber('sonar_right',
-        #                                         Range,
-        #                                         self.get_sonar_right,
-        #                                         queue_size=10)
+        self.sonar_sub_right = rospy.Subscriber('sonar_right',
+                                                Range,
+                                                self.get_sonar_right,
+                                                queue_size=10)
 
         self.cloud_pub = rospy.Publisher('sonar/point_cloud',
                                          PointCloud,
