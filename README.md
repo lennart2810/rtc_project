@@ -9,7 +9,7 @@
 
 <div align="center">
   <a href="https://www.ruhrmasterschool.de/">
-    <img src="appendix/rtc.png" alt="Images" width="500">
+    <img src="appendix/rtc.png" alt="Images" width="300">
   </a>
 </div>
 
