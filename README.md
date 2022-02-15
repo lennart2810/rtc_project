@@ -2,15 +2,14 @@
 
 ## About The Project
 <div align="center">
-  <a href="https://www.turtlebot.com/">
-    <img src="appendix/turtlebot3_with_logo.png" alt="Images" width="500" height="200">
+  <a href="https://www.ruhrmasterschool.de/">
+    <img src="https://www.w-hs.de/fileadmin/public/_processed_/9/8/csm_RMS-Logo_2020-Pfade_edc8abb46d.jpg" alt="Images" width="500" height="200">
   </a>
 </div>
 
 ### Built With
-* [Turtlebot3 - Burger](https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/)
 * [ROS](http://wiki.ros.org/)
-* [Python](https://www.python.org)
+* [Turtlebot3 - Burger](https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/)
 * [DualShock 4 Wireless-Controller](https://www.playstation.com/de-de/accessories/dualshock-4-wireless-controller/)
 <br />
 
